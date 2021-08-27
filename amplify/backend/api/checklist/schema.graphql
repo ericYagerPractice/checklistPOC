@@ -1,0 +1,46 @@
+type Checklist 
+  @model 
+{
+  id: ID!
+  Title: String!
+  FormFields: [FormField] @connection(keyName: "byField", fields: ["id"])
+  comments: [Comment] @connection(keyName: "byChecklist", fields: ["id"])
+}
+
+type FormField 
+  @model 
+  @key(name: "byField", fields: ["checklistID"]) 
+{
+  id: ID!
+  title: String!
+  type: formFieldType!
+  input: [String]
+  checklistID: ID!
+  checklist: Checklist @connection(fields: ["checklistID"])
+}
+
+type Comment 
+  @model 
+  @key(name: "byChecklist", fields: ["checklistID", "content"]) 
+{
+  id: ID!
+  checklistID: ID!
+  checklist: Checklist @connection(fields: ["checklistID"])
+  content: String!
+}
+
+enum Status 
+{
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETE
+}
+
+enum formFieldType
+{
+  TextField
+  Radio
+  Checklist
+  Range
+  Datepicker
+}
