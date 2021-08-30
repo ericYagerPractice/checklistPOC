@@ -343,7 +343,6 @@ export type PhotoStorageInput = {
 
 export type ModelAvatarConditionInput = {
   name?: ModelStringInput | null,
-  owner?: ModelStringInput | null,
   and?: Array< ModelAvatarConditionInput | null > | null,
   or?: Array< ModelAvatarConditionInput | null > | null,
   not?: ModelAvatarConditionInput | null,
@@ -2926,6 +2925,10 @@ export type OnDeleteUserSubscription = {
   } | null,
 };
 
+export type OnCreateAvatarSubscriptionVariables = {
+  owner: string,
+};
+
 export type OnCreateAvatarSubscription = {
   onCreateAvatar?:  {
     __typename: "Avatar",
@@ -2943,6 +2946,10 @@ export type OnCreateAvatarSubscription = {
   } | null,
 };
 
+export type OnUpdateAvatarSubscriptionVariables = {
+  owner: string,
+};
+
 export type OnUpdateAvatarSubscription = {
   onUpdateAvatar?:  {
     __typename: "Avatar",
@@ -2958,6 +2965,10 @@ export type OnUpdateAvatarSubscription = {
     createdAt: string,
     updatedAt: string,
   } | null,
+};
+
+export type OnDeleteAvatarSubscriptionVariables = {
+  owner: string,
 };
 
 export type OnDeleteAvatarSubscription = {

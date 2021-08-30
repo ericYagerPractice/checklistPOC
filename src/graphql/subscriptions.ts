@@ -618,8 +618,8 @@ export const onDeleteUser = /* GraphQL */ `
   }
 `;
 export const onCreateAvatar = /* GraphQL */ `
-  subscription OnCreateAvatar {
-    onCreateAvatar {
+  subscription OnCreateAvatar($owner: String!) {
+    onCreateAvatar(owner: $owner) {
       id
       name
       owner
@@ -634,8 +634,8 @@ export const onCreateAvatar = /* GraphQL */ `
   }
 `;
 export const onUpdateAvatar = /* GraphQL */ `
-  subscription OnUpdateAvatar {
-    onUpdateAvatar {
+  subscription OnUpdateAvatar($owner: String!) {
+    onUpdateAvatar(owner: $owner) {
       id
       name
       owner
@@ -650,8 +650,8 @@ export const onUpdateAvatar = /* GraphQL */ `
   }
 `;
 export const onDeleteAvatar = /* GraphQL */ `
-  subscription OnDeleteAvatar {
-    onDeleteAvatar {
+  subscription OnDeleteAvatar($owner: String!) {
+    onDeleteAvatar(owner: $owner) {
       id
       name
       owner

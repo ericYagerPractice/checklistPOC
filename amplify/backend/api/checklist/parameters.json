@@ -1,5 +1,11 @@
 {
   "AppSyncApiName": "checklist",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authchecklistc1a51e8c",
+      "Outputs.UserPoolId"
+    ]
+  }
 }
