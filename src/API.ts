@@ -60,6 +60,7 @@ export type Checklist = {
   Title: string,
   FormFields?: ModelFormFieldConnection | null,
   comments?: ModelCommentConnection | null,
+  users?: ModelChecklistUserJoinConnection | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -105,6 +106,70 @@ export type Comment = {
   content: string,
   createdAt: string,
   updatedAt: string,
+};
+
+export type ModelChecklistUserJoinConnection = {
+  __typename: "ModelChecklistUserJoinConnection",
+  items?:  Array<ChecklistUserJoin | null > | null,
+  nextToken?: string | null,
+};
+
+export type ChecklistUserJoin = {
+  __typename: "ChecklistUserJoin",
+  id: string,
+  userID: string,
+  checklistID: string,
+  checklistUser: User,
+  checklist: Checklist,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type User = {
+  __typename: "User",
+  id: string,
+  username: string,
+  email: string,
+  phone: string,
+  teamsMember?: ModelTeamUserJoinConnection | null,
+  teamsOwner?: ModelTeamConnection | null,
+  memberChecklists?: ModelChecklistUserJoinConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelTeamUserJoinConnection = {
+  __typename: "ModelTeamUserJoinConnection",
+  items?:  Array<TeamUserJoin | null > | null,
+  nextToken?: string | null,
+};
+
+export type TeamUserJoin = {
+  __typename: "TeamUserJoin",
+  id: string,
+  teamID: string,
+  userID: string,
+  team: Team,
+  teamMember: User,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type Team = {
+  __typename: "Team",
+  id: string,
+  teamName: string,
+  avatar: string,
+  teamMembers?: ModelTeamUserJoinConnection | null,
+  teamLead: User,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelTeamConnection = {
+  __typename: "ModelTeamConnection",
+  items?:  Array<Team | null > | null,
+  nextToken?: string | null,
 };
 
 export type UpdateChecklistInput = {
@@ -191,6 +256,107 @@ export type DeleteCommentInput = {
   id: string,
 };
 
+export type CreateTeamInput = {
+  id?: string | null,
+  teamName: string,
+  avatar: string,
+  teamTeamLeadId: string,
+};
+
+export type ModelTeamConditionInput = {
+  teamName?: ModelStringInput | null,
+  avatar?: ModelStringInput | null,
+  and?: Array< ModelTeamConditionInput | null > | null,
+  or?: Array< ModelTeamConditionInput | null > | null,
+  not?: ModelTeamConditionInput | null,
+};
+
+export type UpdateTeamInput = {
+  id: string,
+  teamName?: string | null,
+  avatar?: string | null,
+  teamTeamLeadId?: string | null,
+};
+
+export type DeleteTeamInput = {
+  id: string,
+};
+
+export type CreateUserInput = {
+  id?: string | null,
+  username: string,
+  email: string,
+  phone: string,
+};
+
+export type ModelUserConditionInput = {
+  username?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  phone?: ModelStringInput | null,
+  and?: Array< ModelUserConditionInput | null > | null,
+  or?: Array< ModelUserConditionInput | null > | null,
+  not?: ModelUserConditionInput | null,
+};
+
+export type UpdateUserInput = {
+  id: string,
+  username?: string | null,
+  email?: string | null,
+  phone?: string | null,
+};
+
+export type DeleteUserInput = {
+  id: string,
+};
+
+export type CreateTeamUserJoinInput = {
+  id?: string | null,
+  teamID: string,
+  userID: string,
+};
+
+export type ModelTeamUserJoinConditionInput = {
+  teamID?: ModelIDInput | null,
+  userID?: ModelIDInput | null,
+  and?: Array< ModelTeamUserJoinConditionInput | null > | null,
+  or?: Array< ModelTeamUserJoinConditionInput | null > | null,
+  not?: ModelTeamUserJoinConditionInput | null,
+};
+
+export type UpdateTeamUserJoinInput = {
+  id: string,
+  teamID?: string | null,
+  userID?: string | null,
+};
+
+export type DeleteTeamUserJoinInput = {
+  id: string,
+};
+
+export type CreateChecklistUserJoinInput = {
+  id?: string | null,
+  userID: string,
+  checklistID: string,
+};
+
+export type ModelChecklistUserJoinConditionInput = {
+  userID?: ModelIDInput | null,
+  checklistID?: ModelIDInput | null,
+  and?: Array< ModelChecklistUserJoinConditionInput | null > | null,
+  or?: Array< ModelChecklistUserJoinConditionInput | null > | null,
+  not?: ModelChecklistUserJoinConditionInput | null,
+};
+
+export type UpdateChecklistUserJoinInput = {
+  id: string,
+  userID?: string | null,
+  checklistID?: string | null,
+};
+
+export type DeleteChecklistUserJoinInput = {
+  id: string,
+};
+
 export type ModelChecklistFilterInput = {
   id?: ModelIDInput | null,
   Title?: ModelStringInput | null,
@@ -225,6 +391,31 @@ export type ModelCommentFilterInput = {
   not?: ModelCommentFilterInput | null,
 };
 
+export type ModelTeamFilterInput = {
+  id?: ModelIDInput | null,
+  teamName?: ModelStringInput | null,
+  avatar?: ModelStringInput | null,
+  and?: Array< ModelTeamFilterInput | null > | null,
+  or?: Array< ModelTeamFilterInput | null > | null,
+  not?: ModelTeamFilterInput | null,
+};
+
+export type ModelUserFilterInput = {
+  id?: ModelIDInput | null,
+  username?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  phone?: ModelStringInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
+};
+
+export type ModelUserConnection = {
+  __typename: "ModelUserConnection",
+  items?:  Array<User | null > | null,
+  nextToken?: string | null,
+};
+
 export type CreateChecklistMutationVariables = {
   input: CreateChecklistInput,
   condition?: ModelChecklistConditionInput | null,
@@ -256,6 +447,18 @@ export type CreateChecklistMutation = {
         id: string,
         checklistID: string,
         content: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    users?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -302,6 +505,18 @@ export type UpdateChecklistMutation = {
       } | null > | null,
       nextToken?: string | null,
     } | null,
+    users?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -343,6 +558,18 @@ export type DeleteChecklistMutation = {
       } | null > | null,
       nextToken?: string | null,
     } | null,
+    users?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -371,6 +598,10 @@ export type CreateFormFieldMutation = {
       } | null,
       comments?:  {
         __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -406,6 +637,10 @@ export type UpdateFormFieldMutation = {
         __typename: "ModelCommentConnection",
         nextToken?: string | null,
       } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -439,6 +674,10 @@ export type DeleteFormFieldMutation = {
         __typename: "ModelCommentConnection",
         nextToken?: string | null,
       } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -467,6 +706,10 @@ export type CreateCommentMutation = {
       } | null,
       comments?:  {
         __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -500,6 +743,10 @@ export type UpdateCommentMutation = {
         __typename: "ModelCommentConnection",
         nextToken?: string | null,
       } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -531,10 +778,662 @@ export type DeleteCommentMutation = {
         __typename: "ModelCommentConnection",
         nextToken?: string | null,
       } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     content: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateTeamMutationVariables = {
+  input: CreateTeamInput,
+  condition?: ModelTeamConditionInput | null,
+};
+
+export type CreateTeamMutation = {
+  createTeam?:  {
+    __typename: "Team",
+    id: string,
+    teamName: string,
+    avatar: string,
+    teamMembers?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamLead:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateTeamMutationVariables = {
+  input: UpdateTeamInput,
+  condition?: ModelTeamConditionInput | null,
+};
+
+export type UpdateTeamMutation = {
+  updateTeam?:  {
+    __typename: "Team",
+    id: string,
+    teamName: string,
+    avatar: string,
+    teamMembers?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamLead:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteTeamMutationVariables = {
+  input: DeleteTeamInput,
+  condition?: ModelTeamConditionInput | null,
+};
+
+export type DeleteTeamMutation = {
+  deleteTeam?:  {
+    __typename: "Team",
+    id: string,
+    teamName: string,
+    avatar: string,
+    teamMembers?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamLead:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateUserMutationVariables = {
+  input: CreateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type CreateUserMutation = {
+  createUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    phone: string,
+    teamsMember?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamsOwner?:  {
+      __typename: "ModelTeamConnection",
+      items?:  Array< {
+        __typename: "Team",
+        id: string,
+        teamName: string,
+        avatar: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    memberChecklists?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type UpdateUserMutation = {
+  updateUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    phone: string,
+    teamsMember?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamsOwner?:  {
+      __typename: "ModelTeamConnection",
+      items?:  Array< {
+        __typename: "Team",
+        id: string,
+        teamName: string,
+        avatar: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    memberChecklists?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type DeleteUserMutation = {
+  deleteUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    phone: string,
+    teamsMember?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamsOwner?:  {
+      __typename: "ModelTeamConnection",
+      items?:  Array< {
+        __typename: "Team",
+        id: string,
+        teamName: string,
+        avatar: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    memberChecklists?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateTeamUserJoinMutationVariables = {
+  input: CreateTeamUserJoinInput,
+  condition?: ModelTeamUserJoinConditionInput | null,
+};
+
+export type CreateTeamUserJoinMutation = {
+  createTeamUserJoin?:  {
+    __typename: "TeamUserJoin",
+    id: string,
+    teamID: string,
+    userID: string,
+    team:  {
+      __typename: "Team",
+      id: string,
+      teamName: string,
+      avatar: string,
+      teamMembers?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamLead:  {
+        __typename: "User",
+        id: string,
+        username: string,
+        email: string,
+        phone: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      createdAt: string,
+      updatedAt: string,
+    },
+    teamMember:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateTeamUserJoinMutationVariables = {
+  input: UpdateTeamUserJoinInput,
+  condition?: ModelTeamUserJoinConditionInput | null,
+};
+
+export type UpdateTeamUserJoinMutation = {
+  updateTeamUserJoin?:  {
+    __typename: "TeamUserJoin",
+    id: string,
+    teamID: string,
+    userID: string,
+    team:  {
+      __typename: "Team",
+      id: string,
+      teamName: string,
+      avatar: string,
+      teamMembers?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamLead:  {
+        __typename: "User",
+        id: string,
+        username: string,
+        email: string,
+        phone: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      createdAt: string,
+      updatedAt: string,
+    },
+    teamMember:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteTeamUserJoinMutationVariables = {
+  input: DeleteTeamUserJoinInput,
+  condition?: ModelTeamUserJoinConditionInput | null,
+};
+
+export type DeleteTeamUserJoinMutation = {
+  deleteTeamUserJoin?:  {
+    __typename: "TeamUserJoin",
+    id: string,
+    teamID: string,
+    userID: string,
+    team:  {
+      __typename: "Team",
+      id: string,
+      teamName: string,
+      avatar: string,
+      teamMembers?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamLead:  {
+        __typename: "User",
+        id: string,
+        username: string,
+        email: string,
+        phone: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      createdAt: string,
+      updatedAt: string,
+    },
+    teamMember:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateChecklistUserJoinMutationVariables = {
+  input: CreateChecklistUserJoinInput,
+  condition?: ModelChecklistUserJoinConditionInput | null,
+};
+
+export type CreateChecklistUserJoinMutation = {
+  createChecklistUserJoin?:  {
+    __typename: "ChecklistUserJoin",
+    id: string,
+    userID: string,
+    checklistID: string,
+    checklistUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    checklist:  {
+      __typename: "Checklist",
+      id: string,
+      Title: string,
+      FormFields?:  {
+        __typename: "ModelFormFieldConnection",
+        nextToken?: string | null,
+      } | null,
+      comments?:  {
+        __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateChecklistUserJoinMutationVariables = {
+  input: UpdateChecklistUserJoinInput,
+  condition?: ModelChecklistUserJoinConditionInput | null,
+};
+
+export type UpdateChecklistUserJoinMutation = {
+  updateChecklistUserJoin?:  {
+    __typename: "ChecklistUserJoin",
+    id: string,
+    userID: string,
+    checklistID: string,
+    checklistUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    checklist:  {
+      __typename: "Checklist",
+      id: string,
+      Title: string,
+      FormFields?:  {
+        __typename: "ModelFormFieldConnection",
+        nextToken?: string | null,
+      } | null,
+      comments?:  {
+        __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteChecklistUserJoinMutationVariables = {
+  input: DeleteChecklistUserJoinInput,
+  condition?: ModelChecklistUserJoinConditionInput | null,
+};
+
+export type DeleteChecklistUserJoinMutation = {
+  deleteChecklistUserJoin?:  {
+    __typename: "ChecklistUserJoin",
+    id: string,
+    userID: string,
+    checklistID: string,
+    checklistUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    checklist:  {
+      __typename: "Checklist",
+      id: string,
+      Title: string,
+      FormFields?:  {
+        __typename: "ModelFormFieldConnection",
+        nextToken?: string | null,
+      } | null,
+      comments?:  {
+        __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -575,6 +1474,18 @@ export type GetChecklistQuery = {
       } | null > | null,
       nextToken?: string | null,
     } | null,
+    users?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -599,6 +1510,10 @@ export type ListChecklistsQuery = {
       } | null,
       comments?:  {
         __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -630,6 +1545,10 @@ export type GetFormFieldQuery = {
       } | null,
       comments?:  {
         __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -691,6 +1610,10 @@ export type GetCommentQuery = {
         __typename: "ModelCommentConnection",
         nextToken?: string | null,
       } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -728,6 +1651,174 @@ export type ListCommentsQuery = {
   } | null,
 };
 
+export type GetTeamQueryVariables = {
+  id: string,
+};
+
+export type GetTeamQuery = {
+  getTeam?:  {
+    __typename: "Team",
+    id: string,
+    teamName: string,
+    avatar: string,
+    teamMembers?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamLead:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListTeamsQueryVariables = {
+  filter?: ModelTeamFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListTeamsQuery = {
+  listTeams?:  {
+    __typename: "ModelTeamConnection",
+    items?:  Array< {
+      __typename: "Team",
+      id: string,
+      teamName: string,
+      avatar: string,
+      teamMembers?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamLead:  {
+        __typename: "User",
+        id: string,
+        username: string,
+        email: string,
+        phone: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetUserQueryVariables = {
+  id: string,
+};
+
+export type GetUserQuery = {
+  getUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    phone: string,
+    teamsMember?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamsOwner?:  {
+      __typename: "ModelTeamConnection",
+      items?:  Array< {
+        __typename: "Team",
+        id: string,
+        teamName: string,
+        avatar: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    memberChecklists?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "ModelUserConnection",
+    items?:  Array< {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreateChecklistSubscription = {
   onCreateChecklist?:  {
     __typename: "Checklist",
@@ -754,6 +1845,18 @@ export type OnCreateChecklistSubscription = {
         id: string,
         checklistID: string,
         content: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    users?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -795,6 +1898,18 @@ export type OnUpdateChecklistSubscription = {
       } | null > | null,
       nextToken?: string | null,
     } | null,
+    users?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -831,6 +1946,18 @@ export type OnDeleteChecklistSubscription = {
       } | null > | null,
       nextToken?: string | null,
     } | null,
+    users?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -854,6 +1981,10 @@ export type OnCreateFormFieldSubscription = {
       } | null,
       comments?:  {
         __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -884,6 +2015,10 @@ export type OnUpdateFormFieldSubscription = {
         __typename: "ModelCommentConnection",
         nextToken?: string | null,
       } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -912,6 +2047,10 @@ export type OnDeleteFormFieldSubscription = {
         __typename: "ModelCommentConnection",
         nextToken?: string | null,
       } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -935,6 +2074,10 @@ export type OnCreateCommentSubscription = {
       } | null,
       comments?:  {
         __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -963,6 +2106,10 @@ export type OnUpdateCommentSubscription = {
         __typename: "ModelCommentConnection",
         nextToken?: string | null,
       } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -989,10 +2136,602 @@ export type OnDeleteCommentSubscription = {
         __typename: "ModelCommentConnection",
         nextToken?: string | null,
       } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     content: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateTeamSubscription = {
+  onCreateTeam?:  {
+    __typename: "Team",
+    id: string,
+    teamName: string,
+    avatar: string,
+    teamMembers?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamLead:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateTeamSubscription = {
+  onUpdateTeam?:  {
+    __typename: "Team",
+    id: string,
+    teamName: string,
+    avatar: string,
+    teamMembers?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamLead:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteTeamSubscription = {
+  onDeleteTeam?:  {
+    __typename: "Team",
+    id: string,
+    teamName: string,
+    avatar: string,
+    teamMembers?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamLead:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    phone: string,
+    teamsMember?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamsOwner?:  {
+      __typename: "ModelTeamConnection",
+      items?:  Array< {
+        __typename: "Team",
+        id: string,
+        teamName: string,
+        avatar: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    memberChecklists?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    phone: string,
+    teamsMember?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamsOwner?:  {
+      __typename: "ModelTeamConnection",
+      items?:  Array< {
+        __typename: "Team",
+        id: string,
+        teamName: string,
+        avatar: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    memberChecklists?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    phone: string,
+    teamsMember?:  {
+      __typename: "ModelTeamUserJoinConnection",
+      items?:  Array< {
+        __typename: "TeamUserJoin",
+        id: string,
+        teamID: string,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    teamsOwner?:  {
+      __typename: "ModelTeamConnection",
+      items?:  Array< {
+        __typename: "Team",
+        id: string,
+        teamName: string,
+        avatar: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    memberChecklists?:  {
+      __typename: "ModelChecklistUserJoinConnection",
+      items?:  Array< {
+        __typename: "ChecklistUserJoin",
+        id: string,
+        userID: string,
+        checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateTeamUserJoinSubscription = {
+  onCreateTeamUserJoin?:  {
+    __typename: "TeamUserJoin",
+    id: string,
+    teamID: string,
+    userID: string,
+    team:  {
+      __typename: "Team",
+      id: string,
+      teamName: string,
+      avatar: string,
+      teamMembers?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamLead:  {
+        __typename: "User",
+        id: string,
+        username: string,
+        email: string,
+        phone: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      createdAt: string,
+      updatedAt: string,
+    },
+    teamMember:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateTeamUserJoinSubscription = {
+  onUpdateTeamUserJoin?:  {
+    __typename: "TeamUserJoin",
+    id: string,
+    teamID: string,
+    userID: string,
+    team:  {
+      __typename: "Team",
+      id: string,
+      teamName: string,
+      avatar: string,
+      teamMembers?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamLead:  {
+        __typename: "User",
+        id: string,
+        username: string,
+        email: string,
+        phone: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      createdAt: string,
+      updatedAt: string,
+    },
+    teamMember:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteTeamUserJoinSubscription = {
+  onDeleteTeamUserJoin?:  {
+    __typename: "TeamUserJoin",
+    id: string,
+    teamID: string,
+    userID: string,
+    team:  {
+      __typename: "Team",
+      id: string,
+      teamName: string,
+      avatar: string,
+      teamMembers?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamLead:  {
+        __typename: "User",
+        id: string,
+        username: string,
+        email: string,
+        phone: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      createdAt: string,
+      updatedAt: string,
+    },
+    teamMember:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateChecklistUserJoinSubscription = {
+  onCreateChecklistUserJoin?:  {
+    __typename: "ChecklistUserJoin",
+    id: string,
+    userID: string,
+    checklistID: string,
+    checklistUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    checklist:  {
+      __typename: "Checklist",
+      id: string,
+      Title: string,
+      FormFields?:  {
+        __typename: "ModelFormFieldConnection",
+        nextToken?: string | null,
+      } | null,
+      comments?:  {
+        __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateChecklistUserJoinSubscription = {
+  onUpdateChecklistUserJoin?:  {
+    __typename: "ChecklistUserJoin",
+    id: string,
+    userID: string,
+    checklistID: string,
+    checklistUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    checklist:  {
+      __typename: "Checklist",
+      id: string,
+      Title: string,
+      FormFields?:  {
+        __typename: "ModelFormFieldConnection",
+        nextToken?: string | null,
+      } | null,
+      comments?:  {
+        __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteChecklistUserJoinSubscription = {
+  onDeleteChecklistUserJoin?:  {
+    __typename: "ChecklistUserJoin",
+    id: string,
+    userID: string,
+    checklistID: string,
+    checklistUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    checklist:  {
+      __typename: "Checklist",
+      id: string,
+      Title: string,
+      FormFields?:  {
+        __typename: "ModelFormFieldConnection",
+        nextToken?: string | null,
+      } | null,
+      comments?:  {
+        __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      users?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,

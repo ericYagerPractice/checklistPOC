@@ -29,6 +29,16 @@ export const getChecklist = /* GraphQL */ `
         }
         nextToken
       }
+      users {
+        items {
+          id
+          userID
+          checklistID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -48,6 +58,9 @@ export const listChecklists = /* GraphQL */ `
           nextToken
         }
         comments {
+          nextToken
+        }
+        users {
           nextToken
         }
         createdAt
@@ -72,6 +85,9 @@ export const getFormField = /* GraphQL */ `
           nextToken
         }
         comments {
+          nextToken
+        }
+        users {
           nextToken
         }
         createdAt
@@ -122,6 +138,9 @@ export const getComment = /* GraphQL */ `
         comments {
           nextToken
         }
+        users {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -148,6 +167,143 @@ export const listComments = /* GraphQL */ `
           updatedAt
         }
         content
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getTeam = /* GraphQL */ `
+  query GetTeam($id: ID!) {
+    getTeam(id: $id) {
+      id
+      teamName
+      avatar
+      teamMembers {
+        items {
+          id
+          teamID
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      teamLead {
+        id
+        username
+        email
+        phone
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTeams = /* GraphQL */ `
+  query ListTeams(
+    $filter: ModelTeamFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTeams(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        teamName
+        avatar
+        teamMembers {
+          nextToken
+        }
+        teamLead {
+          id
+          username
+          email
+          phone
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      username
+      email
+      phone
+      teamsMember {
+        items {
+          id
+          teamID
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      teamsOwner {
+        items {
+          id
+          teamName
+          avatar
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      memberChecklists {
+        items {
+          id
+          userID
+          checklistID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        username
+        email
+        phone
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
         createdAt
         updatedAt
       }

@@ -1,10 +1,14 @@
+#Singlular data objects ----------------------------------------------------------------------------------------
+
 type Checklist 
   @model 
+  @key(name: "checklistUser", fields: ["id"])
 {
   id: ID!
   Title: String!
   FormFields: [FormField] @connection(keyName: "byField", fields: ["id"])
   comments: [Comment] @connection(keyName: "byChecklist", fields: ["id"])
+  users: [ChecklistUserJoin] @connection(keyName: "byUserChecklist", fields: ["id"])
 }
 
 type FormField 
@@ -28,6 +32,56 @@ type Comment
   checklist: Checklist @connection(fields: ["checklistID"])
   content: String!
 }
+
+type Team 
+@model 
+@key(name: "byTeamOwner", fields: ["id"])
+{
+  id: ID!
+  teamName: String!
+  avatar: AWSURL!
+  teamMembers: [TeamUserJoin] @connection(keyName: "byUser", fields: ["id"])
+  teamLead: User! @connection
+}
+
+type User 
+@model 
+{
+  id: ID!
+  username: String!
+  email: AWSEmail!
+  phone: AWSPhone!
+  teamsMember: [TeamUserJoin] @connection(keyName: "byTeam", fields: ["id"])
+  teamsOwner: [Team] @connection(keyName: "byTeamOwner", fields: ["id"])
+  memberChecklists: [ChecklistUserJoin] @connection(keyName: "byChecklistUser", fields: ["id"])
+}
+
+#Join Objects ----------------------------------------------------------------------------------------
+
+type TeamUserJoin
+  @model(queries: null)
+  @key(name: "byTeam", fields: ["teamID", "userID"])
+  @key(name: "byUser", fields: ["userID", "teamID"]) {
+  id: ID!
+  teamID: ID!
+  userID: ID!
+  team: Team! @connection(fields: ["teamID"])
+  teamMember: User! @connection(fields: ["userID"])
+}
+
+type ChecklistUserJoin
+@model(queries: null)
+@key(name: "byChecklistUser", fields: ["userID", "checklistID"])
+@key(name: "byUserChecklist", fields: ["checklistID", "userID"])
+{
+  id: ID!
+  userID: ID!
+  checklistID: ID!
+  checklistUser: User! @connection(fields: ["userID"])
+  checklist: Checklist! @connection(fields: ["checklistID"])
+}
+
+#Enum Objects ----------------------------------------------------------------------------------------
 
 enum Status 
 {

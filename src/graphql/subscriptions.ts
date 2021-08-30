@@ -29,6 +29,16 @@ export const onCreateChecklist = /* GraphQL */ `
         }
         nextToken
       }
+      users {
+        items {
+          id
+          userID
+          checklistID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -56,6 +66,16 @@ export const onUpdateChecklist = /* GraphQL */ `
           id
           checklistID
           content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      users {
+        items {
+          id
+          userID
+          checklistID
           createdAt
           updatedAt
         }
@@ -93,6 +113,16 @@ export const onDeleteChecklist = /* GraphQL */ `
         }
         nextToken
       }
+      users {
+        items {
+          id
+          userID
+          checklistID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -113,6 +143,9 @@ export const onCreateFormField = /* GraphQL */ `
           nextToken
         }
         comments {
+          nextToken
+        }
+        users {
           nextToken
         }
         createdAt
@@ -140,6 +173,9 @@ export const onUpdateFormField = /* GraphQL */ `
         comments {
           nextToken
         }
+        users {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -165,6 +201,9 @@ export const onDeleteFormField = /* GraphQL */ `
         comments {
           nextToken
         }
+        users {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -185,6 +224,9 @@ export const onCreateComment = /* GraphQL */ `
           nextToken
         }
         comments {
+          nextToken
+        }
+        users {
           nextToken
         }
         createdAt
@@ -210,6 +252,9 @@ export const onUpdateComment = /* GraphQL */ `
         comments {
           nextToken
         }
+        users {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -233,10 +278,520 @@ export const onDeleteComment = /* GraphQL */ `
         comments {
           nextToken
         }
+        users {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTeam = /* GraphQL */ `
+  subscription OnCreateTeam {
+    onCreateTeam {
+      id
+      teamName
+      avatar
+      teamMembers {
+        items {
+          id
+          teamID
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      teamLead {
+        id
+        username
+        email
+        phone
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTeam = /* GraphQL */ `
+  subscription OnUpdateTeam {
+    onUpdateTeam {
+      id
+      teamName
+      avatar
+      teamMembers {
+        items {
+          id
+          teamID
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      teamLead {
+        id
+        username
+        email
+        phone
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTeam = /* GraphQL */ `
+  subscription OnDeleteTeam {
+    onDeleteTeam {
+      id
+      teamName
+      avatar
+      teamMembers {
+        items {
+          id
+          teamID
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      teamLead {
+        id
+        username
+        email
+        phone
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser {
+    onCreateUser {
+      id
+      username
+      email
+      phone
+      teamsMember {
+        items {
+          id
+          teamID
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      teamsOwner {
+        items {
+          id
+          teamName
+          avatar
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      memberChecklists {
+        items {
+          id
+          userID
+          checklistID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser {
+    onUpdateUser {
+      id
+      username
+      email
+      phone
+      teamsMember {
+        items {
+          id
+          teamID
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      teamsOwner {
+        items {
+          id
+          teamName
+          avatar
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      memberChecklists {
+        items {
+          id
+          userID
+          checklistID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser {
+    onDeleteUser {
+      id
+      username
+      email
+      phone
+      teamsMember {
+        items {
+          id
+          teamID
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      teamsOwner {
+        items {
+          id
+          teamName
+          avatar
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      memberChecklists {
+        items {
+          id
+          userID
+          checklistID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTeamUserJoin = /* GraphQL */ `
+  subscription OnCreateTeamUserJoin {
+    onCreateTeamUserJoin {
+      id
+      teamID
+      userID
+      team {
+        id
+        teamName
+        avatar
+        teamMembers {
+          nextToken
+        }
+        teamLead {
+          id
+          username
+          email
+          phone
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      teamMember {
+        id
+        username
+        email
+        phone
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTeamUserJoin = /* GraphQL */ `
+  subscription OnUpdateTeamUserJoin {
+    onUpdateTeamUserJoin {
+      id
+      teamID
+      userID
+      team {
+        id
+        teamName
+        avatar
+        teamMembers {
+          nextToken
+        }
+        teamLead {
+          id
+          username
+          email
+          phone
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      teamMember {
+        id
+        username
+        email
+        phone
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTeamUserJoin = /* GraphQL */ `
+  subscription OnDeleteTeamUserJoin {
+    onDeleteTeamUserJoin {
+      id
+      teamID
+      userID
+      team {
+        id
+        teamName
+        avatar
+        teamMembers {
+          nextToken
+        }
+        teamLead {
+          id
+          username
+          email
+          phone
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      teamMember {
+        id
+        username
+        email
+        phone
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateChecklistUserJoin = /* GraphQL */ `
+  subscription OnCreateChecklistUserJoin {
+    onCreateChecklistUserJoin {
+      id
+      userID
+      checklistID
+      checklistUser {
+        id
+        username
+        email
+        phone
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      checklist {
+        id
+        Title
+        FormFields {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        users {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateChecklistUserJoin = /* GraphQL */ `
+  subscription OnUpdateChecklistUserJoin {
+    onUpdateChecklistUserJoin {
+      id
+      userID
+      checklistID
+      checklistUser {
+        id
+        username
+        email
+        phone
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      checklist {
+        id
+        Title
+        FormFields {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        users {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteChecklistUserJoin = /* GraphQL */ `
+  subscription OnDeleteChecklistUserJoin {
+    onDeleteChecklistUserJoin {
+      id
+      userID
+      checklistID
+      checklistUser {
+        id
+        username
+        email
+        phone
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      checklist {
+        id
+        Title
+        FormFields {
+          nextToken
+        }
+        comments {
+          nextToken
+        }
+        users {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
