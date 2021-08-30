@@ -131,11 +131,29 @@ export type User = {
   username: string,
   email: string,
   phone: string,
+  avatar?: Avatar | null,
   teamsMember?: ModelTeamUserJoinConnection | null,
   teamsOwner?: ModelTeamConnection | null,
   memberChecklists?: ModelChecklistUserJoinConnection | null,
   createdAt: string,
   updatedAt: string,
+};
+
+export type Avatar = {
+  __typename: "Avatar",
+  id: string,
+  name?: string | null,
+  owner?: string | null,
+  file?: PhotoStorage | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type PhotoStorage = {
+  __typename: "PhotoStorage",
+  bucket: string,
+  region: string,
+  key: string,
 };
 
 export type ModelTeamUserJoinConnection = {
@@ -159,7 +177,7 @@ export type Team = {
   __typename: "Team",
   id: string,
   teamName: string,
-  avatar: string,
+  avatar?: Avatar | null,
   teamMembers?: ModelTeamUserJoinConnection | null,
   teamLead: User,
   createdAt: string,
@@ -259,13 +277,12 @@ export type DeleteCommentInput = {
 export type CreateTeamInput = {
   id?: string | null,
   teamName: string,
-  avatar: string,
+  teamAvatarId?: string | null,
   teamTeamLeadId: string,
 };
 
 export type ModelTeamConditionInput = {
   teamName?: ModelStringInput | null,
-  avatar?: ModelStringInput | null,
   and?: Array< ModelTeamConditionInput | null > | null,
   or?: Array< ModelTeamConditionInput | null > | null,
   not?: ModelTeamConditionInput | null,
@@ -274,7 +291,7 @@ export type ModelTeamConditionInput = {
 export type UpdateTeamInput = {
   id: string,
   teamName?: string | null,
-  avatar?: string | null,
+  teamAvatarId?: string | null,
   teamTeamLeadId?: string | null,
 };
 
@@ -287,6 +304,7 @@ export type CreateUserInput = {
   username: string,
   email: string,
   phone: string,
+  userAvatarId?: string | null,
 };
 
 export type ModelUserConditionInput = {
@@ -303,9 +321,42 @@ export type UpdateUserInput = {
   username?: string | null,
   email?: string | null,
   phone?: string | null,
+  userAvatarId?: string | null,
 };
 
 export type DeleteUserInput = {
+  id: string,
+};
+
+export type CreateAvatarInput = {
+  id?: string | null,
+  name?: string | null,
+  owner?: string | null,
+  file?: PhotoStorageInput | null,
+};
+
+export type PhotoStorageInput = {
+  bucket: string,
+  region: string,
+  key: string,
+};
+
+export type ModelAvatarConditionInput = {
+  name?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelAvatarConditionInput | null > | null,
+  or?: Array< ModelAvatarConditionInput | null > | null,
+  not?: ModelAvatarConditionInput | null,
+};
+
+export type UpdateAvatarInput = {
+  id: string,
+  name?: string | null,
+  owner?: string | null,
+  file?: PhotoStorageInput | null,
+};
+
+export type DeleteAvatarInput = {
   id: string,
 };
 
@@ -394,7 +445,6 @@ export type ModelCommentFilterInput = {
 export type ModelTeamFilterInput = {
   id?: ModelIDInput | null,
   teamName?: ModelStringInput | null,
-  avatar?: ModelStringInput | null,
   and?: Array< ModelTeamFilterInput | null > | null,
   or?: Array< ModelTeamFilterInput | null > | null,
   not?: ModelTeamFilterInput | null,
@@ -413,6 +463,21 @@ export type ModelUserFilterInput = {
 export type ModelUserConnection = {
   __typename: "ModelUserConnection",
   items?:  Array<User | null > | null,
+  nextToken?: string | null,
+};
+
+export type ModelAvatarFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelAvatarFilterInput | null > | null,
+  or?: Array< ModelAvatarFilterInput | null > | null,
+  not?: ModelAvatarFilterInput | null,
+};
+
+export type ModelAvatarConnection = {
+  __typename: "ModelAvatarConnection",
+  items?:  Array<Avatar | null > | null,
   nextToken?: string | null,
 };
 
@@ -801,7 +866,20 @@ export type CreateTeamMutation = {
     __typename: "Team",
     id: string,
     teamName: string,
-    avatar: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamMembers?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -820,6 +898,14 @@ export type CreateTeamMutation = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -850,7 +936,20 @@ export type UpdateTeamMutation = {
     __typename: "Team",
     id: string,
     teamName: string,
-    avatar: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamMembers?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -869,6 +968,14 @@ export type UpdateTeamMutation = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -899,7 +1006,20 @@ export type DeleteTeamMutation = {
     __typename: "Team",
     id: string,
     teamName: string,
-    avatar: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamMembers?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -918,6 +1038,14 @@ export type DeleteTeamMutation = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -950,6 +1078,20 @@ export type CreateUserMutation = {
     username: string,
     email: string,
     phone: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamsMember?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -968,7 +1110,6 @@ export type CreateUserMutation = {
         __typename: "Team",
         id: string,
         teamName: string,
-        avatar: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -1003,6 +1144,20 @@ export type UpdateUserMutation = {
     username: string,
     email: string,
     phone: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamsMember?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -1021,7 +1176,6 @@ export type UpdateUserMutation = {
         __typename: "Team",
         id: string,
         teamName: string,
-        avatar: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -1056,6 +1210,20 @@ export type DeleteUserMutation = {
     username: string,
     email: string,
     phone: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamsMember?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -1074,7 +1242,6 @@ export type DeleteUserMutation = {
         __typename: "Team",
         id: string,
         teamName: string,
-        avatar: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -1097,6 +1264,72 @@ export type DeleteUserMutation = {
   } | null,
 };
 
+export type CreateAvatarMutationVariables = {
+  input: CreateAvatarInput,
+  condition?: ModelAvatarConditionInput | null,
+};
+
+export type CreateAvatarMutation = {
+  createAvatar?:  {
+    __typename: "Avatar",
+    id: string,
+    name?: string | null,
+    owner?: string | null,
+    file?:  {
+      __typename: "PhotoStorage",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateAvatarMutationVariables = {
+  input: UpdateAvatarInput,
+  condition?: ModelAvatarConditionInput | null,
+};
+
+export type UpdateAvatarMutation = {
+  updateAvatar?:  {
+    __typename: "Avatar",
+    id: string,
+    name?: string | null,
+    owner?: string | null,
+    file?:  {
+      __typename: "PhotoStorage",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteAvatarMutationVariables = {
+  input: DeleteAvatarInput,
+  condition?: ModelAvatarConditionInput | null,
+};
+
+export type DeleteAvatarMutation = {
+  deleteAvatar?:  {
+    __typename: "Avatar",
+    id: string,
+    name?: string | null,
+    owner?: string | null,
+    file?:  {
+      __typename: "PhotoStorage",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreateTeamUserJoinMutationVariables = {
   input: CreateTeamUserJoinInput,
   condition?: ModelTeamUserJoinConditionInput | null,
@@ -1112,7 +1345,14 @@ export type CreateTeamUserJoinMutation = {
       __typename: "Team",
       id: string,
       teamName: string,
-      avatar: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamMembers?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -1135,6 +1375,14 @@ export type CreateTeamUserJoinMutation = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -1170,7 +1418,14 @@ export type UpdateTeamUserJoinMutation = {
       __typename: "Team",
       id: string,
       teamName: string,
-      avatar: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamMembers?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -1193,6 +1448,14 @@ export type UpdateTeamUserJoinMutation = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -1228,7 +1491,14 @@ export type DeleteTeamUserJoinMutation = {
       __typename: "Team",
       id: string,
       teamName: string,
-      avatar: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamMembers?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -1251,6 +1521,14 @@ export type DeleteTeamUserJoinMutation = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -1288,6 +1566,14 @@ export type CreateChecklistUserJoinMutation = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -1344,6 +1630,14 @@ export type UpdateChecklistUserJoinMutation = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -1400,6 +1694,14 @@ export type DeleteChecklistUserJoinMutation = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -1660,7 +1962,20 @@ export type GetTeamQuery = {
     __typename: "Team",
     id: string,
     teamName: string,
-    avatar: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamMembers?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -1679,6 +1994,14 @@ export type GetTeamQuery = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -1712,7 +2035,14 @@ export type ListTeamsQuery = {
       __typename: "Team",
       id: string,
       teamName: string,
-      avatar: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamMembers?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -1744,6 +2074,20 @@ export type GetUserQuery = {
     username: string,
     email: string,
     phone: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamsMember?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -1762,7 +2106,6 @@ export type GetUserQuery = {
         __typename: "Team",
         id: string,
         teamName: string,
-        avatar: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -1800,6 +2143,14 @@ export type ListUsersQuery = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -1811,6 +2162,54 @@ export type ListUsersQuery = {
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
         nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetAvatarQueryVariables = {
+  id: string,
+};
+
+export type GetAvatarQuery = {
+  getAvatar?:  {
+    __typename: "Avatar",
+    id: string,
+    name?: string | null,
+    owner?: string | null,
+    file?:  {
+      __typename: "PhotoStorage",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListAvatarsQueryVariables = {
+  filter?: ModelAvatarFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListAvatarsQuery = {
+  listAvatars?:  {
+    __typename: "ModelAvatarConnection",
+    items?:  Array< {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
       } | null,
       createdAt: string,
       updatedAt: string,
@@ -2154,7 +2553,20 @@ export type OnCreateTeamSubscription = {
     __typename: "Team",
     id: string,
     teamName: string,
-    avatar: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamMembers?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -2173,6 +2585,14 @@ export type OnCreateTeamSubscription = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -2198,7 +2618,20 @@ export type OnUpdateTeamSubscription = {
     __typename: "Team",
     id: string,
     teamName: string,
-    avatar: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamMembers?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -2217,6 +2650,14 @@ export type OnUpdateTeamSubscription = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -2242,7 +2683,20 @@ export type OnDeleteTeamSubscription = {
     __typename: "Team",
     id: string,
     teamName: string,
-    avatar: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamMembers?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -2261,6 +2715,14 @@ export type OnDeleteTeamSubscription = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -2288,6 +2750,20 @@ export type OnCreateUserSubscription = {
     username: string,
     email: string,
     phone: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamsMember?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -2306,7 +2782,6 @@ export type OnCreateUserSubscription = {
         __typename: "Team",
         id: string,
         teamName: string,
-        avatar: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -2336,6 +2811,20 @@ export type OnUpdateUserSubscription = {
     username: string,
     email: string,
     phone: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamsMember?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -2354,7 +2843,6 @@ export type OnUpdateUserSubscription = {
         __typename: "Team",
         id: string,
         teamName: string,
-        avatar: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -2384,6 +2872,20 @@ export type OnDeleteUserSubscription = {
     username: string,
     email: string,
     phone: string,
+    avatar?:  {
+      __typename: "Avatar",
+      id: string,
+      name?: string | null,
+      owner?: string | null,
+      file?:  {
+        __typename: "PhotoStorage",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     teamsMember?:  {
       __typename: "ModelTeamUserJoinConnection",
       items?:  Array< {
@@ -2402,7 +2904,6 @@ export type OnDeleteUserSubscription = {
         __typename: "Team",
         id: string,
         teamName: string,
-        avatar: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -2425,6 +2926,57 @@ export type OnDeleteUserSubscription = {
   } | null,
 };
 
+export type OnCreateAvatarSubscription = {
+  onCreateAvatar?:  {
+    __typename: "Avatar",
+    id: string,
+    name?: string | null,
+    owner?: string | null,
+    file?:  {
+      __typename: "PhotoStorage",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateAvatarSubscription = {
+  onUpdateAvatar?:  {
+    __typename: "Avatar",
+    id: string,
+    name?: string | null,
+    owner?: string | null,
+    file?:  {
+      __typename: "PhotoStorage",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteAvatarSubscription = {
+  onDeleteAvatar?:  {
+    __typename: "Avatar",
+    id: string,
+    name?: string | null,
+    owner?: string | null,
+    file?:  {
+      __typename: "PhotoStorage",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnCreateTeamUserJoinSubscription = {
   onCreateTeamUserJoin?:  {
     __typename: "TeamUserJoin",
@@ -2435,7 +2987,14 @@ export type OnCreateTeamUserJoinSubscription = {
       __typename: "Team",
       id: string,
       teamName: string,
-      avatar: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamMembers?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -2458,6 +3017,14 @@ export type OnCreateTeamUserJoinSubscription = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -2488,7 +3055,14 @@ export type OnUpdateTeamUserJoinSubscription = {
       __typename: "Team",
       id: string,
       teamName: string,
-      avatar: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamMembers?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -2511,6 +3085,14 @@ export type OnUpdateTeamUserJoinSubscription = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -2541,7 +3123,14 @@ export type OnDeleteTeamUserJoinSubscription = {
       __typename: "Team",
       id: string,
       teamName: string,
-      avatar: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamMembers?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -2564,6 +3153,14 @@ export type OnDeleteTeamUserJoinSubscription = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -2596,6 +3193,14 @@ export type OnCreateChecklistUserJoinSubscription = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -2647,6 +3252,14 @@ export type OnUpdateChecklistUserJoinSubscription = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,
@@ -2698,6 +3311,14 @@ export type OnDeleteChecklistUserJoinSubscription = {
       username: string,
       email: string,
       phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       teamsMember?:  {
         __typename: "ModelTeamUserJoinConnection",
         nextToken?: string | null,

@@ -295,7 +295,18 @@ export const onCreateTeam = /* GraphQL */ `
     onCreateTeam {
       id
       teamName
-      avatar
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamMembers {
         items {
           id
@@ -311,6 +322,13 @@ export const onCreateTeam = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -333,7 +351,18 @@ export const onUpdateTeam = /* GraphQL */ `
     onUpdateTeam {
       id
       teamName
-      avatar
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamMembers {
         items {
           id
@@ -349,6 +378,13 @@ export const onUpdateTeam = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -371,7 +407,18 @@ export const onDeleteTeam = /* GraphQL */ `
     onDeleteTeam {
       id
       teamName
-      avatar
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamMembers {
         items {
           id
@@ -387,6 +434,13 @@ export const onDeleteTeam = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -411,6 +465,18 @@ export const onCreateUser = /* GraphQL */ `
       username
       email
       phone
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamsMember {
         items {
           id
@@ -425,7 +491,6 @@ export const onCreateUser = /* GraphQL */ `
         items {
           id
           teamName
-          avatar
           createdAt
           updatedAt
         }
@@ -453,6 +518,18 @@ export const onUpdateUser = /* GraphQL */ `
       username
       email
       phone
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamsMember {
         items {
           id
@@ -467,7 +544,6 @@ export const onUpdateUser = /* GraphQL */ `
         items {
           id
           teamName
-          avatar
           createdAt
           updatedAt
         }
@@ -495,6 +571,18 @@ export const onDeleteUser = /* GraphQL */ `
       username
       email
       phone
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamsMember {
         items {
           id
@@ -509,7 +597,6 @@ export const onDeleteUser = /* GraphQL */ `
         items {
           id
           teamName
-          avatar
           createdAt
           updatedAt
         }
@@ -530,6 +617,54 @@ export const onDeleteUser = /* GraphQL */ `
     }
   }
 `;
+export const onCreateAvatar = /* GraphQL */ `
+  subscription OnCreateAvatar {
+    onCreateAvatar {
+      id
+      name
+      owner
+      file {
+        bucket
+        region
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateAvatar = /* GraphQL */ `
+  subscription OnUpdateAvatar {
+    onUpdateAvatar {
+      id
+      name
+      owner
+      file {
+        bucket
+        region
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteAvatar = /* GraphQL */ `
+  subscription OnDeleteAvatar {
+    onDeleteAvatar {
+      id
+      name
+      owner
+      file {
+        bucket
+        region
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateTeamUserJoin = /* GraphQL */ `
   subscription OnCreateTeamUserJoin {
     onCreateTeamUserJoin {
@@ -539,7 +674,13 @@ export const onCreateTeamUserJoin = /* GraphQL */ `
       team {
         id
         teamName
-        avatar
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamMembers {
           nextToken
         }
@@ -559,6 +700,13 @@ export const onCreateTeamUserJoin = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -585,7 +733,13 @@ export const onUpdateTeamUserJoin = /* GraphQL */ `
       team {
         id
         teamName
-        avatar
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamMembers {
           nextToken
         }
@@ -605,6 +759,13 @@ export const onUpdateTeamUserJoin = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -631,7 +792,13 @@ export const onDeleteTeamUserJoin = /* GraphQL */ `
       team {
         id
         teamName
-        avatar
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamMembers {
           nextToken
         }
@@ -651,6 +818,13 @@ export const onDeleteTeamUserJoin = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -679,6 +853,13 @@ export const onCreateChecklistUserJoin = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -722,6 +903,13 @@ export const onUpdateChecklistUserJoin = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -765,6 +953,13 @@ export const onDeleteChecklistUserJoin = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }

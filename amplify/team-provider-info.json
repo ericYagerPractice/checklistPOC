@@ -10,6 +10,11 @@
       "StackName": "amplify-checklist-dev-143359",
       "StackId": "arn:aws:cloudformation:us-east-1:820626187184:stack/amplify-checklist-dev-143359/c0ea6820-076d-11ec-820a-0e6c28966f7b",
       "AmplifyAppId": "d2y7tgfzvh8381"
+    },
+    "categories": {
+      "auth": {
+        "checklistc1a51e8c": {}
+      }
     }
   }
 }

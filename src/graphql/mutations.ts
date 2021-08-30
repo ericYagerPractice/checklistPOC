@@ -325,7 +325,18 @@ export const createTeam = /* GraphQL */ `
     createTeam(input: $input, condition: $condition) {
       id
       teamName
-      avatar
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamMembers {
         items {
           id
@@ -341,6 +352,13 @@ export const createTeam = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -366,7 +384,18 @@ export const updateTeam = /* GraphQL */ `
     updateTeam(input: $input, condition: $condition) {
       id
       teamName
-      avatar
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamMembers {
         items {
           id
@@ -382,6 +411,13 @@ export const updateTeam = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -407,7 +443,18 @@ export const deleteTeam = /* GraphQL */ `
     deleteTeam(input: $input, condition: $condition) {
       id
       teamName
-      avatar
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamMembers {
         items {
           id
@@ -423,6 +470,13 @@ export const deleteTeam = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -450,6 +504,18 @@ export const createUser = /* GraphQL */ `
       username
       email
       phone
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamsMember {
         items {
           id
@@ -464,7 +530,6 @@ export const createUser = /* GraphQL */ `
         items {
           id
           teamName
-          avatar
           createdAt
           updatedAt
         }
@@ -495,6 +560,18 @@ export const updateUser = /* GraphQL */ `
       username
       email
       phone
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamsMember {
         items {
           id
@@ -509,7 +586,6 @@ export const updateUser = /* GraphQL */ `
         items {
           id
           teamName
-          avatar
           createdAt
           updatedAt
         }
@@ -540,6 +616,18 @@ export const deleteUser = /* GraphQL */ `
       username
       email
       phone
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamsMember {
         items {
           id
@@ -554,7 +642,6 @@ export const deleteUser = /* GraphQL */ `
         items {
           id
           teamName
-          avatar
           createdAt
           updatedAt
         }
@@ -575,6 +662,63 @@ export const deleteUser = /* GraphQL */ `
     }
   }
 `;
+export const createAvatar = /* GraphQL */ `
+  mutation CreateAvatar(
+    $input: CreateAvatarInput!
+    $condition: ModelAvatarConditionInput
+  ) {
+    createAvatar(input: $input, condition: $condition) {
+      id
+      name
+      owner
+      file {
+        bucket
+        region
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateAvatar = /* GraphQL */ `
+  mutation UpdateAvatar(
+    $input: UpdateAvatarInput!
+    $condition: ModelAvatarConditionInput
+  ) {
+    updateAvatar(input: $input, condition: $condition) {
+      id
+      name
+      owner
+      file {
+        bucket
+        region
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteAvatar = /* GraphQL */ `
+  mutation DeleteAvatar(
+    $input: DeleteAvatarInput!
+    $condition: ModelAvatarConditionInput
+  ) {
+    deleteAvatar(input: $input, condition: $condition) {
+      id
+      name
+      owner
+      file {
+        bucket
+        region
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createTeamUserJoin = /* GraphQL */ `
   mutation CreateTeamUserJoin(
     $input: CreateTeamUserJoinInput!
@@ -587,7 +731,13 @@ export const createTeamUserJoin = /* GraphQL */ `
       team {
         id
         teamName
-        avatar
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamMembers {
           nextToken
         }
@@ -607,6 +757,13 @@ export const createTeamUserJoin = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -636,7 +793,13 @@ export const updateTeamUserJoin = /* GraphQL */ `
       team {
         id
         teamName
-        avatar
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamMembers {
           nextToken
         }
@@ -656,6 +819,13 @@ export const updateTeamUserJoin = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -685,7 +855,13 @@ export const deleteTeamUserJoin = /* GraphQL */ `
       team {
         id
         teamName
-        avatar
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamMembers {
           nextToken
         }
@@ -705,6 +881,13 @@ export const deleteTeamUserJoin = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -736,6 +919,13 @@ export const createChecklistUserJoin = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -782,6 +972,13 @@ export const updateChecklistUserJoin = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -828,6 +1025,13 @@ export const deleteChecklistUserJoin = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }

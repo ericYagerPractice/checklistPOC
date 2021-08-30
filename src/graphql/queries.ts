@@ -179,7 +179,18 @@ export const getTeam = /* GraphQL */ `
     getTeam(id: $id) {
       id
       teamName
-      avatar
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamMembers {
         items {
           id
@@ -195,6 +206,13 @@ export const getTeam = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -222,7 +240,13 @@ export const listTeams = /* GraphQL */ `
       items {
         id
         teamName
-        avatar
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamMembers {
           nextToken
         }
@@ -248,6 +272,18 @@ export const getUser = /* GraphQL */ `
       username
       email
       phone
+      avatar {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
       teamsMember {
         items {
           id
@@ -262,7 +298,6 @@ export const getUser = /* GraphQL */ `
         items {
           id
           teamName
-          avatar
           createdAt
           updatedAt
         }
@@ -295,6 +330,13 @@ export const listUsers = /* GraphQL */ `
         username
         email
         phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
         teamsMember {
           nextToken
         }
@@ -303,6 +345,45 @@ export const listUsers = /* GraphQL */ `
         }
         memberChecklists {
           nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getAvatar = /* GraphQL */ `
+  query GetAvatar($id: ID!) {
+    getAvatar(id: $id) {
+      id
+      name
+      owner
+      file {
+        bucket
+        region
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listAvatars = /* GraphQL */ `
+  query ListAvatars(
+    $filter: ModelAvatarFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAvatars(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
         }
         createdAt
         updatedAt

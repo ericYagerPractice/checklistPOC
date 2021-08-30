@@ -39,7 +39,7 @@ type Team
 {
   id: ID!
   teamName: String!
-  avatar: AWSURL!
+  avatar: Avatar @connection
   teamMembers: [TeamUserJoin] @connection(keyName: "byUser", fields: ["id"])
   teamLead: User! @connection
 }
@@ -50,10 +50,21 @@ type User
   id: ID!
   username: String!
   email: AWSEmail!
-  phone: AWSPhone!
+  phone: AWSPhone! 
+  avatar: Avatar @connection
   teamsMember: [TeamUserJoin] @connection(keyName: "byTeam", fields: ["id"])
   teamsOwner: [Team] @connection(keyName: "byTeamOwner", fields: ["id"])
   memberChecklists: [ChecklistUserJoin] @connection(keyName: "byChecklistUser", fields: ["id"])
+}
+
+type Avatar
+@model
+@auth(rules: [{allow: owner}])
+{
+  id: ID!
+  name: String
+  owner: String
+  file: PhotoStorage
 }
 
 #Join Objects ----------------------------------------------------------------------------------------
@@ -79,6 +90,14 @@ type ChecklistUserJoin
   checklistID: ID!
   checklistUser: User! @connection(fields: ["userID"])
   checklist: Checklist! @connection(fields: ["checklistID"])
+}
+
+#Infrastructure Objects ----------------------------------------------------------------------------------------
+
+type PhotoStorage{
+  bucket: String!
+  region: String!
+  key: String!
 }
 
 #Enum Objects ----------------------------------------------------------------------------------------
