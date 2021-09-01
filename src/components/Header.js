@@ -21,6 +21,7 @@ export default class Header extends Component {
             name='create'
             active={activeItem === 'Create'}
             onClick={this.handleItemClick}
+            href='/Create'
           />
           <Menu.Item
             name='view'
