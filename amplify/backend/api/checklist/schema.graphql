@@ -67,6 +67,31 @@ type Avatar
   file: PhotoStorage
 }
 
+type DailySchedule
+@model
+@auth(rules: [{ allow: private }])
+{
+  id: ID!
+  title: String!
+  date: AWSDate!
+  events: [Event] @connection(keyName: "byEvent", fields: ["id"])
+}
+
+type Event
+@model
+@auth(rules: [{ allow: private }])
+@key(name: "byEvent", fields: ["parentSchedule"]) 
+{
+  id: ID!
+  parentSchedule: ID!
+  startTime: AWSTimestamp!
+  endTime: AWSTimestamp!
+  title: String!
+  description: String!
+  status: Status
+  assignee: User!
+}
+
 #Join Objects ----------------------------------------------------------------------------------------
 
 type TeamUserJoin
@@ -106,7 +131,8 @@ enum Status
 {
   NOT_STARTED
   IN_PROGRESS
-  COMPLETE
+  DONE
+  VERIFIED_COMPLETE
 }
 
 enum formFieldType

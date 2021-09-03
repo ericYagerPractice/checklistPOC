@@ -665,6 +665,198 @@ export const onDeleteAvatar = /* GraphQL */ `
     }
   }
 `;
+export const onCreateDailySchedule = /* GraphQL */ `
+  subscription OnCreateDailySchedule {
+    onCreateDailySchedule {
+      id
+      title
+      date
+      events {
+        items {
+          id
+          parentSchedule
+          startTime
+          endTime
+          title
+          description
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateDailySchedule = /* GraphQL */ `
+  subscription OnUpdateDailySchedule {
+    onUpdateDailySchedule {
+      id
+      title
+      date
+      events {
+        items {
+          id
+          parentSchedule
+          startTime
+          endTime
+          title
+          description
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteDailySchedule = /* GraphQL */ `
+  subscription OnDeleteDailySchedule {
+    onDeleteDailySchedule {
+      id
+      title
+      date
+      events {
+        items {
+          id
+          parentSchedule
+          startTime
+          endTime
+          title
+          description
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateEvent = /* GraphQL */ `
+  subscription OnCreateEvent {
+    onCreateEvent {
+      id
+      parentSchedule
+      startTime
+      endTime
+      title
+      description
+      status
+      assignee {
+        id
+        username
+        email
+        phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateEvent = /* GraphQL */ `
+  subscription OnUpdateEvent {
+    onUpdateEvent {
+      id
+      parentSchedule
+      startTime
+      endTime
+      title
+      description
+      status
+      assignee {
+        id
+        username
+        email
+        phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteEvent = /* GraphQL */ `
+  subscription OnDeleteEvent {
+    onDeleteEvent {
+      id
+      parentSchedule
+      startTime
+      endTime
+      title
+      description
+      status
+      assignee {
+        id
+        username
+        email
+        phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateTeamUserJoin = /* GraphQL */ `
   subscription OnCreateTeamUserJoin {
     onCreateTeamUserJoin {

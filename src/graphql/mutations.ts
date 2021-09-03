@@ -719,6 +719,216 @@ export const deleteAvatar = /* GraphQL */ `
     }
   }
 `;
+export const createDailySchedule = /* GraphQL */ `
+  mutation CreateDailySchedule(
+    $input: CreateDailyScheduleInput!
+    $condition: ModelDailyScheduleConditionInput
+  ) {
+    createDailySchedule(input: $input, condition: $condition) {
+      id
+      title
+      date
+      events {
+        items {
+          id
+          parentSchedule
+          startTime
+          endTime
+          title
+          description
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateDailySchedule = /* GraphQL */ `
+  mutation UpdateDailySchedule(
+    $input: UpdateDailyScheduleInput!
+    $condition: ModelDailyScheduleConditionInput
+  ) {
+    updateDailySchedule(input: $input, condition: $condition) {
+      id
+      title
+      date
+      events {
+        items {
+          id
+          parentSchedule
+          startTime
+          endTime
+          title
+          description
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteDailySchedule = /* GraphQL */ `
+  mutation DeleteDailySchedule(
+    $input: DeleteDailyScheduleInput!
+    $condition: ModelDailyScheduleConditionInput
+  ) {
+    deleteDailySchedule(input: $input, condition: $condition) {
+      id
+      title
+      date
+      events {
+        items {
+          id
+          parentSchedule
+          startTime
+          endTime
+          title
+          description
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createEvent = /* GraphQL */ `
+  mutation CreateEvent(
+    $input: CreateEventInput!
+    $condition: ModelEventConditionInput
+  ) {
+    createEvent(input: $input, condition: $condition) {
+      id
+      parentSchedule
+      startTime
+      endTime
+      title
+      description
+      status
+      assignee {
+        id
+        username
+        email
+        phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateEvent = /* GraphQL */ `
+  mutation UpdateEvent(
+    $input: UpdateEventInput!
+    $condition: ModelEventConditionInput
+  ) {
+    updateEvent(input: $input, condition: $condition) {
+      id
+      parentSchedule
+      startTime
+      endTime
+      title
+      description
+      status
+      assignee {
+        id
+        username
+        email
+        phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteEvent = /* GraphQL */ `
+  mutation DeleteEvent(
+    $input: DeleteEventInput!
+    $condition: ModelEventConditionInput
+  ) {
+    deleteEvent(input: $input, condition: $condition) {
+      id
+      parentSchedule
+      startTime
+      endTime
+      title
+      description
+      status
+      assignee {
+        id
+        username
+        email
+        phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createTeamUserJoin = /* GraphQL */ `
   mutation CreateTeamUserJoin(
     $input: CreateTeamUserJoinInput!

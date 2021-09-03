@@ -392,3 +392,118 @@ export const listAvatars = /* GraphQL */ `
     }
   }
 `;
+export const getDailySchedule = /* GraphQL */ `
+  query GetDailySchedule($id: ID!) {
+    getDailySchedule(id: $id) {
+      id
+      title
+      date
+      events {
+        items {
+          id
+          parentSchedule
+          startTime
+          endTime
+          title
+          description
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listDailySchedules = /* GraphQL */ `
+  query ListDailySchedules(
+    $filter: ModelDailyScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listDailySchedules(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        date
+        events {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getEvent = /* GraphQL */ `
+  query GetEvent($id: ID!) {
+    getEvent(id: $id) {
+      id
+      parentSchedule
+      startTime
+      endTime
+      title
+      description
+      status
+      assignee {
+        id
+        username
+        email
+        phone
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listEvents = /* GraphQL */ `
+  query ListEvents(
+    $filter: ModelEventFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listEvents(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        parentSchedule
+        startTime
+        endTime
+        title
+        description
+        status
+        assignee {
+          id
+          username
+          email
+          phone
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

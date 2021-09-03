@@ -1,10 +1,23 @@
 import React, {useState} from 'react'
-import { Header } from 'semantic-ui-react'
+import { Header, Dropdown } from 'semantic-ui-react'
 import {  Grid, Input, Segment } from 'semantic-ui-react'
 import '../static/css/CreateChecklist.css'
 
-export default function CreateChecklist(){
+export default function CreateSchedule(){
     const [title, setTitle] = useState(null)
+    const options = [
+        {
+            key: 'Daily Schedule',
+            text: 'Daily Schedule',
+            value: 'Daily Schedule',
+        },
+        {
+            key: 'Checklist',
+            text: 'Checklist',
+            value: 'Checklist',
+        }
+    ]
+
     return(
         <>
             <Segment class="createChecklistSegment">
@@ -14,6 +27,7 @@ export default function CreateChecklist(){
                     <Grid.Column width={4}>
                         <Header as='h1'>Create new</Header>
                         <Input 
+                            label="Item Title"
                             placeholder='Title' 
                             onChange={event=>setTitle(event.target.value)}
                         />

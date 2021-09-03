@@ -7,27 +7,23 @@ export default class Header extends Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   render() {
-    const { activeItem } = this.state
+    var currentURL = window.location.pathname
+    
 
     return (
       <Segment inverted>
         <Menu inverted fixed='top' style={{ minHeight: 45 }}>
           <Menu.Item
             name='home'
-            active={activeItem === 'home'}
-            onClick={this.handleItemClick}
+            active={currentURL === '/'}
+            href="/"
           />
           <Menu.Item
-            name='create'
-            active={activeItem === 'Create'}
-            onClick={this.handleItemClick}
-            href='/Create'
+            name='createSchedule'
+            active={currentURL === '/CreateSchedule'}
+            href='/CreateSchedule'
           />
-          <Menu.Item
-            name='view'
-            active={activeItem === 'View'}
-            onClick={this.handleItemClick}
-          />
+         
         </Menu>
       </Segment>
     )

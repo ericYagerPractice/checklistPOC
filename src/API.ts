@@ -359,6 +359,121 @@ export type DeleteAvatarInput = {
   id: string,
 };
 
+export type CreateDailyScheduleInput = {
+  id?: string | null,
+  title: string,
+  date: string,
+};
+
+export type ModelDailyScheduleConditionInput = {
+  title?: ModelStringInput | null,
+  date?: ModelStringInput | null,
+  and?: Array< ModelDailyScheduleConditionInput | null > | null,
+  or?: Array< ModelDailyScheduleConditionInput | null > | null,
+  not?: ModelDailyScheduleConditionInput | null,
+};
+
+export type DailySchedule = {
+  __typename: "DailySchedule",
+  id: string,
+  title: string,
+  date: string,
+  events?: ModelEventConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelEventConnection = {
+  __typename: "ModelEventConnection",
+  items?:  Array<Event | null > | null,
+  nextToken?: string | null,
+};
+
+export type Event = {
+  __typename: "Event",
+  id: string,
+  parentSchedule: string,
+  startTime: number,
+  endTime: number,
+  title: string,
+  description: string,
+  status?: Status | null,
+  assignee: User,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum Status {
+  NOT_STARTED = "NOT_STARTED",
+  IN_PROGRESS = "IN_PROGRESS",
+  DONE = "DONE",
+  VERIFIED_COMPLETE = "VERIFIED_COMPLETE",
+}
+
+
+export type UpdateDailyScheduleInput = {
+  id: string,
+  title?: string | null,
+  date?: string | null,
+};
+
+export type DeleteDailyScheduleInput = {
+  id: string,
+};
+
+export type CreateEventInput = {
+  id?: string | null,
+  parentSchedule: string,
+  startTime: number,
+  endTime: number,
+  title: string,
+  description: string,
+  status?: Status | null,
+};
+
+export type ModelEventConditionInput = {
+  parentSchedule?: ModelIDInput | null,
+  startTime?: ModelIntInput | null,
+  endTime?: ModelIntInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  status?: ModelStatusInput | null,
+  and?: Array< ModelEventConditionInput | null > | null,
+  or?: Array< ModelEventConditionInput | null > | null,
+  not?: ModelEventConditionInput | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type ModelStatusInput = {
+  eq?: Status | null,
+  ne?: Status | null,
+};
+
+export type UpdateEventInput = {
+  id: string,
+  parentSchedule?: string | null,
+  startTime?: number | null,
+  endTime?: number | null,
+  title?: string | null,
+  description?: string | null,
+  status?: Status | null,
+};
+
+export type DeleteEventInput = {
+  id: string,
+};
+
 export type CreateTeamUserJoinInput = {
   id?: string | null,
   teamID: string,
@@ -478,6 +593,34 @@ export type ModelAvatarConnection = {
   __typename: "ModelAvatarConnection",
   items?:  Array<Avatar | null > | null,
   nextToken?: string | null,
+};
+
+export type ModelDailyScheduleFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  date?: ModelStringInput | null,
+  and?: Array< ModelDailyScheduleFilterInput | null > | null,
+  or?: Array< ModelDailyScheduleFilterInput | null > | null,
+  not?: ModelDailyScheduleFilterInput | null,
+};
+
+export type ModelDailyScheduleConnection = {
+  __typename: "ModelDailyScheduleConnection",
+  items?:  Array<DailySchedule | null > | null,
+  nextToken?: string | null,
+};
+
+export type ModelEventFilterInput = {
+  id?: ModelIDInput | null,
+  parentSchedule?: ModelIDInput | null,
+  startTime?: ModelIntInput | null,
+  endTime?: ModelIntInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  status?: ModelStatusInput | null,
+  and?: Array< ModelEventFilterInput | null > | null,
+  or?: Array< ModelEventFilterInput | null > | null,
+  not?: ModelEventFilterInput | null,
 };
 
 export type CreateChecklistMutationVariables = {
@@ -1324,6 +1467,249 @@ export type DeleteAvatarMutation = {
       region: string,
       key: string,
     } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateDailyScheduleMutationVariables = {
+  input: CreateDailyScheduleInput,
+  condition?: ModelDailyScheduleConditionInput | null,
+};
+
+export type CreateDailyScheduleMutation = {
+  createDailySchedule?:  {
+    __typename: "DailySchedule",
+    id: string,
+    title: string,
+    date: string,
+    events?:  {
+      __typename: "ModelEventConnection",
+      items?:  Array< {
+        __typename: "Event",
+        id: string,
+        parentSchedule: string,
+        startTime: number,
+        endTime: number,
+        title: string,
+        description: string,
+        status?: Status | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateDailyScheduleMutationVariables = {
+  input: UpdateDailyScheduleInput,
+  condition?: ModelDailyScheduleConditionInput | null,
+};
+
+export type UpdateDailyScheduleMutation = {
+  updateDailySchedule?:  {
+    __typename: "DailySchedule",
+    id: string,
+    title: string,
+    date: string,
+    events?:  {
+      __typename: "ModelEventConnection",
+      items?:  Array< {
+        __typename: "Event",
+        id: string,
+        parentSchedule: string,
+        startTime: number,
+        endTime: number,
+        title: string,
+        description: string,
+        status?: Status | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteDailyScheduleMutationVariables = {
+  input: DeleteDailyScheduleInput,
+  condition?: ModelDailyScheduleConditionInput | null,
+};
+
+export type DeleteDailyScheduleMutation = {
+  deleteDailySchedule?:  {
+    __typename: "DailySchedule",
+    id: string,
+    title: string,
+    date: string,
+    events?:  {
+      __typename: "ModelEventConnection",
+      items?:  Array< {
+        __typename: "Event",
+        id: string,
+        parentSchedule: string,
+        startTime: number,
+        endTime: number,
+        title: string,
+        description: string,
+        status?: Status | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateEventMutationVariables = {
+  input: CreateEventInput,
+  condition?: ModelEventConditionInput | null,
+};
+
+export type CreateEventMutation = {
+  createEvent?:  {
+    __typename: "Event",
+    id: string,
+    parentSchedule: string,
+    startTime: number,
+    endTime: number,
+    title: string,
+    description: string,
+    status?: Status | null,
+    assignee:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateEventMutationVariables = {
+  input: UpdateEventInput,
+  condition?: ModelEventConditionInput | null,
+};
+
+export type UpdateEventMutation = {
+  updateEvent?:  {
+    __typename: "Event",
+    id: string,
+    parentSchedule: string,
+    startTime: number,
+    endTime: number,
+    title: string,
+    description: string,
+    status?: Status | null,
+    assignee:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteEventMutationVariables = {
+  input: DeleteEventInput,
+  condition?: ModelEventConditionInput | null,
+};
+
+export type DeleteEventMutation = {
+  deleteEvent?:  {
+    __typename: "Event",
+    id: string,
+    parentSchedule: string,
+    startTime: number,
+    endTime: number,
+    title: string,
+    description: string,
+    status?: Status | null,
+    assignee:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2217,6 +2603,144 @@ export type ListAvatarsQuery = {
   } | null,
 };
 
+export type GetDailyScheduleQueryVariables = {
+  id: string,
+};
+
+export type GetDailyScheduleQuery = {
+  getDailySchedule?:  {
+    __typename: "DailySchedule",
+    id: string,
+    title: string,
+    date: string,
+    events?:  {
+      __typename: "ModelEventConnection",
+      items?:  Array< {
+        __typename: "Event",
+        id: string,
+        parentSchedule: string,
+        startTime: number,
+        endTime: number,
+        title: string,
+        description: string,
+        status?: Status | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListDailySchedulesQueryVariables = {
+  filter?: ModelDailyScheduleFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListDailySchedulesQuery = {
+  listDailySchedules?:  {
+    __typename: "ModelDailyScheduleConnection",
+    items?:  Array< {
+      __typename: "DailySchedule",
+      id: string,
+      title: string,
+      date: string,
+      events?:  {
+        __typename: "ModelEventConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetEventQueryVariables = {
+  id: string,
+};
+
+export type GetEventQuery = {
+  getEvent?:  {
+    __typename: "Event",
+    id: string,
+    parentSchedule: string,
+    startTime: number,
+    endTime: number,
+    title: string,
+    description: string,
+    status?: Status | null,
+    assignee:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListEventsQueryVariables = {
+  filter?: ModelEventFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListEventsQuery = {
+  listEvents?:  {
+    __typename: "ModelEventConnection",
+    items?:  Array< {
+      __typename: "Event",
+      id: string,
+      parentSchedule: string,
+      startTime: number,
+      endTime: number,
+      title: string,
+      description: string,
+      status?: Status | null,
+      assignee:  {
+        __typename: "User",
+        id: string,
+        username: string,
+        email: string,
+        phone: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreateChecklistSubscription = {
   onCreateChecklist?:  {
     __typename: "Checklist",
@@ -2983,6 +3507,219 @@ export type OnDeleteAvatarSubscription = {
       region: string,
       key: string,
     } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateDailyScheduleSubscription = {
+  onCreateDailySchedule?:  {
+    __typename: "DailySchedule",
+    id: string,
+    title: string,
+    date: string,
+    events?:  {
+      __typename: "ModelEventConnection",
+      items?:  Array< {
+        __typename: "Event",
+        id: string,
+        parentSchedule: string,
+        startTime: number,
+        endTime: number,
+        title: string,
+        description: string,
+        status?: Status | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateDailyScheduleSubscription = {
+  onUpdateDailySchedule?:  {
+    __typename: "DailySchedule",
+    id: string,
+    title: string,
+    date: string,
+    events?:  {
+      __typename: "ModelEventConnection",
+      items?:  Array< {
+        __typename: "Event",
+        id: string,
+        parentSchedule: string,
+        startTime: number,
+        endTime: number,
+        title: string,
+        description: string,
+        status?: Status | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteDailyScheduleSubscription = {
+  onDeleteDailySchedule?:  {
+    __typename: "DailySchedule",
+    id: string,
+    title: string,
+    date: string,
+    events?:  {
+      __typename: "ModelEventConnection",
+      items?:  Array< {
+        __typename: "Event",
+        id: string,
+        parentSchedule: string,
+        startTime: number,
+        endTime: number,
+        title: string,
+        description: string,
+        status?: Status | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateEventSubscription = {
+  onCreateEvent?:  {
+    __typename: "Event",
+    id: string,
+    parentSchedule: string,
+    startTime: number,
+    endTime: number,
+    title: string,
+    description: string,
+    status?: Status | null,
+    assignee:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateEventSubscription = {
+  onUpdateEvent?:  {
+    __typename: "Event",
+    id: string,
+    parentSchedule: string,
+    startTime: number,
+    endTime: number,
+    title: string,
+    description: string,
+    status?: Status | null,
+    assignee:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteEventSubscription = {
+  onDeleteEvent?:  {
+    __typename: "Event",
+    id: string,
+    parentSchedule: string,
+    startTime: number,
+    endTime: number,
+    title: string,
+    description: string,
+    status?: Status | null,
+    assignee:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      phone: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,
