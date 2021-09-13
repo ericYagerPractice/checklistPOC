@@ -7,7 +7,6 @@ import PropTypes from 'prop-types'
 import {
   Button,
   Container,
-  Divider,
   Grid,
   Header,
   Icon,
@@ -130,15 +129,6 @@ const Home = () => (
         <Button as='a' size='large'>
           Read More
         </Button>
-
-        <Divider
-          as='h4'
-          className='header'
-          horizontal
-          style={{ margin: '3em 0em', textTransform: 'uppercase' }}
-        >
-          <a href='#'>Case Studies</a>
-        </Divider>
 
         <Header as='h3' style={{ fontSize: '2em' }}>
           Did We Tell You About Our Bananas?

@@ -3,7 +3,9 @@ import { Button, Dimmer, Form, Grid, Header, Image, Loader, Message, Modal, Segm
 import GLIcon from '../../static/images/GLIfullsize.png'
 import {emailValidation, validationRegex } from '../../functions/dataValidations'
 import {passwordErrorMessage, passwordMismatchMessage, usernameLengthValidationMessage,emailFormatValidationMessage} from '../../functions/errorMessages'
-import {signUp, confirmSignUp} from '../../functions/authentication'
+import { signUp, resendConfirmationCode } from '../../functions/authentication'
+import { Auth } from 'aws-amplify';
+import { Redirect } from 'react-router-dom'
 
 let signupInfoTemplate = {
     username: "",
@@ -19,6 +21,7 @@ function CreateAccountForm(){
     const [validEmail, updatevalidEmail] = useState(emailValidation(amplifyFormData.email))
     const [formSubmission, updateformSubmission] = useState(false)
     const [showConfirmationModal, updateConfirmationModal] = useState(false)
+    const [redirect, updateRedirect] = useState(false)
 
     function validatePassword(passwordInput){
         if(validationRegex.test(passwordInput)){
@@ -42,8 +45,11 @@ function CreateAccountForm(){
     async function SubmitVerificationCodeToAmplify(){
         updateformSubmission(true)
         try{
-            await confirmSignUp(amplifyFormData.username, verificationCode)
-            .then(console.log("did it"))
+            await Auth.confirmSignUp(amplifyFormData.username, verificationCode)
+            .then(updateRedirect(true))
+            .catch(error=>{
+                console.log("Error validating account", error)
+            })
         } catch(error){
             console.log(amplifyFormData.username, error)
         }
@@ -119,6 +125,13 @@ function CreateAccountForm(){
                                 {(amplifyFormData.username.length<7 && amplifyFormData.username.length>1) && usernameLengthValidationMessage()}
                                 {passwordValidation && passwordErrorMessage()}
                                 {(!passwordsMatch && amplifyFormData.password.length>6)  && passwordMismatchMessage()}
+                                {redirect && (
+                                    <Redirect 
+                                        to={{
+                                            pathname: '/login'
+                                        }}
+                                    />
+                                )}
                             </Segment>
                         </Form>
                         <Message>
@@ -136,7 +149,7 @@ function CreateAccountForm(){
                 <Modal.Header>Check email for validation code</Modal.Header>
                 <Modal.Content>
                     <Form
-                        onSubmit={()=>SubmitFormDataToAmplify()}
+                        onSubmit={()=>SubmitVerificationCodeToAmplify()}
                     >
                         <Form.Field>
                             <label>Validation Code</label>
@@ -147,6 +160,9 @@ function CreateAccountForm(){
                         </Form.Field>
                         <Button positive type='submit'>Submit</Button>
                     </Form>
+                    <Message>
+                        <p>Didn't receive the code?</p> <Button secondary onClick={()=>resendConfirmationCode()}> Send code again </Button>
+                    </Message>
                 </Modal.Content>
                 <Modal.Actions>
                 <Button onClick={() => updateConfirmationModal(false)}>Cancel</Button>
