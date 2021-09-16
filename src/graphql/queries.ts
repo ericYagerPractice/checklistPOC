@@ -205,7 +205,6 @@ export const getTeam = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -220,6 +219,9 @@ export const getTeam = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -254,7 +256,6 @@ export const listTeams = /* GraphQL */ `
           id
           username
           email
-          phone
           createdAt
           updatedAt
         }
@@ -271,7 +272,6 @@ export const getUser = /* GraphQL */ `
       id
       username
       email
-      phone
       avatar {
         id
         name
@@ -313,6 +313,17 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      schedules {
+        items {
+          id
+          title
+          date
+          owner
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -329,7 +340,6 @@ export const listUsers = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -344,6 +354,9 @@ export const listUsers = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -398,6 +411,7 @@ export const getDailySchedule = /* GraphQL */ `
       id
       title
       date
+      owner
       events {
         items {
           id
@@ -428,6 +442,7 @@ export const listDailySchedules = /* GraphQL */ `
         id
         title
         date
+        owner
         events {
           nextToken
         }
@@ -452,7 +467,6 @@ export const getEvent = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -467,6 +481,9 @@ export const getEvent = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -496,7 +513,6 @@ export const listEvents = /* GraphQL */ `
           id
           username
           email
-          phone
           createdAt
           updatedAt
         }

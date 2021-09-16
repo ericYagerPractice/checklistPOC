@@ -130,11 +130,11 @@ export type User = {
   id: string,
   username: string,
   email: string,
-  phone: string,
   avatar?: Avatar | null,
   teamsMember?: ModelTeamUserJoinConnection | null,
   teamsOwner?: ModelTeamConnection | null,
   memberChecklists?: ModelChecklistUserJoinConnection | null,
+  schedules?: ModelDailyScheduleConnection | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -189,6 +189,51 @@ export type ModelTeamConnection = {
   items?:  Array<Team | null > | null,
   nextToken?: string | null,
 };
+
+export type ModelDailyScheduleConnection = {
+  __typename: "ModelDailyScheduleConnection",
+  items?:  Array<DailySchedule | null > | null,
+  nextToken?: string | null,
+};
+
+export type DailySchedule = {
+  __typename: "DailySchedule",
+  id: string,
+  title: string,
+  date: string,
+  owner: string,
+  events?: ModelEventConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelEventConnection = {
+  __typename: "ModelEventConnection",
+  items?:  Array<Event | null > | null,
+  nextToken?: string | null,
+};
+
+export type Event = {
+  __typename: "Event",
+  id: string,
+  parentSchedule: string,
+  startTime: number,
+  endTime: number,
+  title: string,
+  description: string,
+  status?: Status | null,
+  assignee: User,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum Status {
+  NOT_STARTED = "NOT_STARTED",
+  IN_PROGRESS = "IN_PROGRESS",
+  DONE = "DONE",
+  VERIFIED_COMPLETE = "VERIFIED_COMPLETE",
+}
+
 
 export type UpdateChecklistInput = {
   id: string,
@@ -303,14 +348,12 @@ export type CreateUserInput = {
   id?: string | null,
   username: string,
   email: string,
-  phone: string,
   userAvatarId?: string | null,
 };
 
 export type ModelUserConditionInput = {
   username?: ModelStringInput | null,
   email?: ModelStringInput | null,
-  phone?: ModelStringInput | null,
   and?: Array< ModelUserConditionInput | null > | null,
   or?: Array< ModelUserConditionInput | null > | null,
   not?: ModelUserConditionInput | null,
@@ -320,7 +363,6 @@ export type UpdateUserInput = {
   id: string,
   username?: string | null,
   email?: string | null,
-  phone?: string | null,
   userAvatarId?: string | null,
 };
 
@@ -363,58 +405,23 @@ export type CreateDailyScheduleInput = {
   id?: string | null,
   title: string,
   date: string,
+  owner: string,
 };
 
 export type ModelDailyScheduleConditionInput = {
   title?: ModelStringInput | null,
   date?: ModelStringInput | null,
+  owner?: ModelIDInput | null,
   and?: Array< ModelDailyScheduleConditionInput | null > | null,
   or?: Array< ModelDailyScheduleConditionInput | null > | null,
   not?: ModelDailyScheduleConditionInput | null,
 };
 
-export type DailySchedule = {
-  __typename: "DailySchedule",
-  id: string,
-  title: string,
-  date: string,
-  events?: ModelEventConnection | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type ModelEventConnection = {
-  __typename: "ModelEventConnection",
-  items?:  Array<Event | null > | null,
-  nextToken?: string | null,
-};
-
-export type Event = {
-  __typename: "Event",
-  id: string,
-  parentSchedule: string,
-  startTime: number,
-  endTime: number,
-  title: string,
-  description: string,
-  status?: Status | null,
-  assignee: User,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export enum Status {
-  NOT_STARTED = "NOT_STARTED",
-  IN_PROGRESS = "IN_PROGRESS",
-  DONE = "DONE",
-  VERIFIED_COMPLETE = "VERIFIED_COMPLETE",
-}
-
-
 export type UpdateDailyScheduleInput = {
   id: string,
   title?: string | null,
   date?: string | null,
+  owner?: string | null,
 };
 
 export type DeleteDailyScheduleInput = {
@@ -568,7 +575,6 @@ export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
   username?: ModelStringInput | null,
   email?: ModelStringInput | null,
-  phone?: ModelStringInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
   or?: Array< ModelUserFilterInput | null > | null,
   not?: ModelUserFilterInput | null,
@@ -599,15 +605,10 @@ export type ModelDailyScheduleFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
   date?: ModelStringInput | null,
+  owner?: ModelIDInput | null,
   and?: Array< ModelDailyScheduleFilterInput | null > | null,
   or?: Array< ModelDailyScheduleFilterInput | null > | null,
   not?: ModelDailyScheduleFilterInput | null,
-};
-
-export type ModelDailyScheduleConnection = {
-  __typename: "ModelDailyScheduleConnection",
-  items?:  Array<DailySchedule | null > | null,
-  nextToken?: string | null,
 };
 
 export type ModelEventFilterInput = {
@@ -1039,7 +1040,6 @@ export type CreateTeamMutation = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -1058,6 +1058,10 @@ export type CreateTeamMutation = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1109,7 +1113,6 @@ export type UpdateTeamMutation = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -1128,6 +1131,10 @@ export type UpdateTeamMutation = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1179,7 +1186,6 @@ export type DeleteTeamMutation = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -1198,6 +1204,10 @@ export type DeleteTeamMutation = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1219,7 +1229,6 @@ export type CreateUserMutation = {
     id: string,
     username: string,
     email: string,
-    phone: string,
     avatar?:  {
       __typename: "Avatar",
       id: string,
@@ -1264,6 +1273,19 @@ export type CreateUserMutation = {
         id: string,
         userID: string,
         checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    schedules?:  {
+      __typename: "ModelDailyScheduleConnection",
+      items?:  Array< {
+        __typename: "DailySchedule",
+        id: string,
+        title: string,
+        date: string,
+        owner: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -1285,7 +1307,6 @@ export type UpdateUserMutation = {
     id: string,
     username: string,
     email: string,
-    phone: string,
     avatar?:  {
       __typename: "Avatar",
       id: string,
@@ -1330,6 +1351,19 @@ export type UpdateUserMutation = {
         id: string,
         userID: string,
         checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    schedules?:  {
+      __typename: "ModelDailyScheduleConnection",
+      items?:  Array< {
+        __typename: "DailySchedule",
+        id: string,
+        title: string,
+        date: string,
+        owner: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -1351,7 +1385,6 @@ export type DeleteUserMutation = {
     id: string,
     username: string,
     email: string,
-    phone: string,
     avatar?:  {
       __typename: "Avatar",
       id: string,
@@ -1396,6 +1429,19 @@ export type DeleteUserMutation = {
         id: string,
         userID: string,
         checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    schedules?:  {
+      __typename: "ModelDailyScheduleConnection",
+      items?:  Array< {
+        __typename: "DailySchedule",
+        id: string,
+        title: string,
+        date: string,
+        owner: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -1483,6 +1529,7 @@ export type CreateDailyScheduleMutation = {
     id: string,
     title: string,
     date: string,
+    owner: string,
     events?:  {
       __typename: "ModelEventConnection",
       items?:  Array< {
@@ -1515,6 +1562,7 @@ export type UpdateDailyScheduleMutation = {
     id: string,
     title: string,
     date: string,
+    owner: string,
     events?:  {
       __typename: "ModelEventConnection",
       items?:  Array< {
@@ -1547,6 +1595,7 @@ export type DeleteDailyScheduleMutation = {
     id: string,
     title: string,
     date: string,
+    owner: string,
     events?:  {
       __typename: "ModelEventConnection",
       items?:  Array< {
@@ -1588,7 +1637,6 @@ export type CreateEventMutation = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -1607,6 +1655,10 @@ export type CreateEventMutation = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1637,7 +1689,6 @@ export type UpdateEventMutation = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -1656,6 +1707,10 @@ export type UpdateEventMutation = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1686,7 +1741,6 @@ export type DeleteEventMutation = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -1705,6 +1759,10 @@ export type DeleteEventMutation = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1747,7 +1805,6 @@ export type CreateTeamUserJoinMutation = {
         id: string,
         username: string,
         email: string,
-        phone: string,
         createdAt: string,
         updatedAt: string,
       },
@@ -1759,7 +1816,6 @@ export type CreateTeamUserJoinMutation = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -1778,6 +1834,10 @@ export type CreateTeamUserJoinMutation = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1820,7 +1880,6 @@ export type UpdateTeamUserJoinMutation = {
         id: string,
         username: string,
         email: string,
-        phone: string,
         createdAt: string,
         updatedAt: string,
       },
@@ -1832,7 +1891,6 @@ export type UpdateTeamUserJoinMutation = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -1851,6 +1909,10 @@ export type UpdateTeamUserJoinMutation = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1893,7 +1955,6 @@ export type DeleteTeamUserJoinMutation = {
         id: string,
         username: string,
         email: string,
-        phone: string,
         createdAt: string,
         updatedAt: string,
       },
@@ -1905,7 +1966,6 @@ export type DeleteTeamUserJoinMutation = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -1924,6 +1984,10 @@ export type DeleteTeamUserJoinMutation = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1950,7 +2014,6 @@ export type CreateChecklistUserJoinMutation = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -1969,6 +2032,10 @@ export type CreateChecklistUserJoinMutation = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -2014,7 +2081,6 @@ export type UpdateChecklistUserJoinMutation = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -2033,6 +2099,10 @@ export type UpdateChecklistUserJoinMutation = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -2078,7 +2148,6 @@ export type DeleteChecklistUserJoinMutation = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -2097,6 +2166,10 @@ export type DeleteChecklistUserJoinMutation = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -2378,7 +2451,6 @@ export type GetTeamQuery = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -2397,6 +2469,10 @@ export type GetTeamQuery = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -2437,7 +2513,6 @@ export type ListTeamsQuery = {
         id: string,
         username: string,
         email: string,
-        phone: string,
         createdAt: string,
         updatedAt: string,
       },
@@ -2458,7 +2533,6 @@ export type GetUserQuery = {
     id: string,
     username: string,
     email: string,
-    phone: string,
     avatar?:  {
       __typename: "Avatar",
       id: string,
@@ -2508,6 +2582,19 @@ export type GetUserQuery = {
       } | null > | null,
       nextToken?: string | null,
     } | null,
+    schedules?:  {
+      __typename: "ModelDailyScheduleConnection",
+      items?:  Array< {
+        __typename: "DailySchedule",
+        id: string,
+        title: string,
+        date: string,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2527,7 +2614,6 @@ export type ListUsersQuery = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -2546,6 +2632,10 @@ export type ListUsersQuery = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -2613,6 +2703,7 @@ export type GetDailyScheduleQuery = {
     id: string,
     title: string,
     date: string,
+    owner: string,
     events?:  {
       __typename: "ModelEventConnection",
       items?:  Array< {
@@ -2648,6 +2739,7 @@ export type ListDailySchedulesQuery = {
       id: string,
       title: string,
       date: string,
+      owner: string,
       events?:  {
         __typename: "ModelEventConnection",
         nextToken?: string | null,
@@ -2678,7 +2770,6 @@ export type GetEventQuery = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -2697,6 +2788,10 @@ export type GetEventQuery = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -2730,7 +2825,6 @@ export type ListEventsQuery = {
         id: string,
         username: string,
         email: string,
-        phone: string,
         createdAt: string,
         updatedAt: string,
       },
@@ -3107,7 +3201,6 @@ export type OnCreateTeamSubscription = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -3126,6 +3219,10 @@ export type OnCreateTeamSubscription = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -3172,7 +3269,6 @@ export type OnUpdateTeamSubscription = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -3191,6 +3287,10 @@ export type OnUpdateTeamSubscription = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -3237,7 +3337,6 @@ export type OnDeleteTeamSubscription = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -3258,6 +3357,10 @@ export type OnDeleteTeamSubscription = {
         __typename: "ModelChecklistUserJoinConnection",
         nextToken?: string | null,
       } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -3272,7 +3375,6 @@ export type OnCreateUserSubscription = {
     id: string,
     username: string,
     email: string,
-    phone: string,
     avatar?:  {
       __typename: "Avatar",
       id: string,
@@ -3317,6 +3419,19 @@ export type OnCreateUserSubscription = {
         id: string,
         userID: string,
         checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    schedules?:  {
+      __typename: "ModelDailyScheduleConnection",
+      items?:  Array< {
+        __typename: "DailySchedule",
+        id: string,
+        title: string,
+        date: string,
+        owner: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -3333,7 +3448,6 @@ export type OnUpdateUserSubscription = {
     id: string,
     username: string,
     email: string,
-    phone: string,
     avatar?:  {
       __typename: "Avatar",
       id: string,
@@ -3378,6 +3492,19 @@ export type OnUpdateUserSubscription = {
         id: string,
         userID: string,
         checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    schedules?:  {
+      __typename: "ModelDailyScheduleConnection",
+      items?:  Array< {
+        __typename: "DailySchedule",
+        id: string,
+        title: string,
+        date: string,
+        owner: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -3394,7 +3521,6 @@ export type OnDeleteUserSubscription = {
     id: string,
     username: string,
     email: string,
-    phone: string,
     avatar?:  {
       __typename: "Avatar",
       id: string,
@@ -3439,6 +3565,19 @@ export type OnDeleteUserSubscription = {
         id: string,
         userID: string,
         checklistID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    schedules?:  {
+      __typename: "ModelDailyScheduleConnection",
+      items?:  Array< {
+        __typename: "DailySchedule",
+        id: string,
+        title: string,
+        date: string,
+        owner: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -3518,6 +3657,7 @@ export type OnCreateDailyScheduleSubscription = {
     id: string,
     title: string,
     date: string,
+    owner: string,
     events?:  {
       __typename: "ModelEventConnection",
       items?:  Array< {
@@ -3545,6 +3685,7 @@ export type OnUpdateDailyScheduleSubscription = {
     id: string,
     title: string,
     date: string,
+    owner: string,
     events?:  {
       __typename: "ModelEventConnection",
       items?:  Array< {
@@ -3572,6 +3713,7 @@ export type OnDeleteDailyScheduleSubscription = {
     id: string,
     title: string,
     date: string,
+    owner: string,
     events?:  {
       __typename: "ModelEventConnection",
       items?:  Array< {
@@ -3608,7 +3750,6 @@ export type OnCreateEventSubscription = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -3627,6 +3768,10 @@ export type OnCreateEventSubscription = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -3652,7 +3797,6 @@ export type OnUpdateEventSubscription = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -3671,6 +3815,10 @@ export type OnUpdateEventSubscription = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -3696,7 +3844,6 @@ export type OnDeleteEventSubscription = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -3715,6 +3862,10 @@ export type OnDeleteEventSubscription = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -3752,7 +3903,6 @@ export type OnCreateTeamUserJoinSubscription = {
         id: string,
         username: string,
         email: string,
-        phone: string,
         createdAt: string,
         updatedAt: string,
       },
@@ -3764,7 +3914,6 @@ export type OnCreateTeamUserJoinSubscription = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -3783,6 +3932,10 @@ export type OnCreateTeamUserJoinSubscription = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -3820,7 +3973,6 @@ export type OnUpdateTeamUserJoinSubscription = {
         id: string,
         username: string,
         email: string,
-        phone: string,
         createdAt: string,
         updatedAt: string,
       },
@@ -3832,7 +3984,6 @@ export type OnUpdateTeamUserJoinSubscription = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -3851,6 +4002,10 @@ export type OnUpdateTeamUserJoinSubscription = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -3888,7 +4043,6 @@ export type OnDeleteTeamUserJoinSubscription = {
         id: string,
         username: string,
         email: string,
-        phone: string,
         createdAt: string,
         updatedAt: string,
       },
@@ -3900,7 +4054,6 @@ export type OnDeleteTeamUserJoinSubscription = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -3919,6 +4072,10 @@ export type OnDeleteTeamUserJoinSubscription = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -3940,7 +4097,6 @@ export type OnCreateChecklistUserJoinSubscription = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -3959,6 +4115,10 @@ export type OnCreateChecklistUserJoinSubscription = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -3999,7 +4159,6 @@ export type OnUpdateChecklistUserJoinSubscription = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -4018,6 +4177,10 @@ export type OnUpdateChecklistUserJoinSubscription = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -4058,7 +4221,6 @@ export type OnDeleteChecklistUserJoinSubscription = {
       id: string,
       username: string,
       email: string,
-      phone: string,
       avatar?:  {
         __typename: "Avatar",
         id: string,
@@ -4077,6 +4239,10 @@ export type OnDeleteChecklistUserJoinSubscription = {
       } | null,
       memberChecklists?:  {
         __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,

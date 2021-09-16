@@ -351,7 +351,6 @@ export const createTeam = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -366,6 +365,9 @@ export const createTeam = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -410,7 +412,6 @@ export const updateTeam = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -425,6 +426,9 @@ export const updateTeam = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -469,7 +473,6 @@ export const deleteTeam = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -484,6 +487,9 @@ export const deleteTeam = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -503,7 +509,6 @@ export const createUser = /* GraphQL */ `
       id
       username
       email
-      phone
       avatar {
         id
         name
@@ -540,6 +545,17 @@ export const createUser = /* GraphQL */ `
           id
           userID
           checklistID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      schedules {
+        items {
+          id
+          title
+          date
+          owner
           createdAt
           updatedAt
         }
@@ -559,7 +575,6 @@ export const updateUser = /* GraphQL */ `
       id
       username
       email
-      phone
       avatar {
         id
         name
@@ -596,6 +611,17 @@ export const updateUser = /* GraphQL */ `
           id
           userID
           checklistID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      schedules {
+        items {
+          id
+          title
+          date
+          owner
           createdAt
           updatedAt
         }
@@ -615,7 +641,6 @@ export const deleteUser = /* GraphQL */ `
       id
       username
       email
-      phone
       avatar {
         id
         name
@@ -652,6 +677,17 @@ export const deleteUser = /* GraphQL */ `
           id
           userID
           checklistID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      schedules {
+        items {
+          id
+          title
+          date
+          owner
           createdAt
           updatedAt
         }
@@ -728,6 +764,7 @@ export const createDailySchedule = /* GraphQL */ `
       id
       title
       date
+      owner
       events {
         items {
           id
@@ -756,6 +793,7 @@ export const updateDailySchedule = /* GraphQL */ `
       id
       title
       date
+      owner
       events {
         items {
           id
@@ -784,6 +822,7 @@ export const deleteDailySchedule = /* GraphQL */ `
       id
       title
       date
+      owner
       events {
         items {
           id
@@ -820,7 +859,6 @@ export const createEvent = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -835,6 +873,9 @@ export const createEvent = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -862,7 +903,6 @@ export const updateEvent = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -877,6 +917,9 @@ export const updateEvent = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -904,7 +947,6 @@ export const deleteEvent = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -919,6 +961,9 @@ export const deleteEvent = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -955,7 +1000,6 @@ export const createTeamUserJoin = /* GraphQL */ `
           id
           username
           email
-          phone
           createdAt
           updatedAt
         }
@@ -966,7 +1010,6 @@ export const createTeamUserJoin = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -981,6 +1024,9 @@ export const createTeamUserJoin = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -1017,7 +1063,6 @@ export const updateTeamUserJoin = /* GraphQL */ `
           id
           username
           email
-          phone
           createdAt
           updatedAt
         }
@@ -1028,7 +1073,6 @@ export const updateTeamUserJoin = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -1043,6 +1087,9 @@ export const updateTeamUserJoin = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -1079,7 +1126,6 @@ export const deleteTeamUserJoin = /* GraphQL */ `
           id
           username
           email
-          phone
           createdAt
           updatedAt
         }
@@ -1090,7 +1136,6 @@ export const deleteTeamUserJoin = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -1105,6 +1150,9 @@ export const deleteTeamUserJoin = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -1128,7 +1176,6 @@ export const createChecklistUserJoin = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -1143,6 +1190,9 @@ export const createChecklistUserJoin = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -1181,7 +1231,6 @@ export const updateChecklistUserJoin = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -1196,6 +1245,9 @@ export const updateChecklistUserJoin = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt
@@ -1234,7 +1286,6 @@ export const deleteChecklistUserJoin = /* GraphQL */ `
         id
         username
         email
-        phone
         avatar {
           id
           name
@@ -1249,6 +1300,9 @@ export const deleteChecklistUserJoin = /* GraphQL */ `
           nextToken
         }
         memberChecklists {
+          nextToken
+        }
+        schedules {
           nextToken
         }
         createdAt

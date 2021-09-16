@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { Menu, Segment } from 'semantic-ui-react'
+import { Icon, Menu, Segment, Dropdown } from 'semantic-ui-react'
 import { Auth } from 'aws-amplify';
 import { Button } from 'semantic-ui-react'
 import { signOut } from '../functions/authentication';
 
 export default function Header() {
   const [currentSession, updatecurrentSession] = useState("")
+
+  const iconStylization= (
+    <span>
+      <Icon name='user' /> User Options
+    </span>
+  )
+
+
   var currentURL = window.location.pathname
 
   async function retrieveCurrentSession(){
@@ -36,29 +44,22 @@ export default function Header() {
         />
         <Menu.Menu position='right'>
           <div className='ui right aligned'>
-            {
-              currentSession==="" ? 
-              <>
-              <Button 
-                primary
-                href="/login"
-              >Sign In
-              </Button>
-              <Button 
-                secondary
-                href="/CreateAccount"
-              >Sign Up
-            </Button>
-            </>
-              : 
-                <>
-                  <Button 
-                    primary
-                    onClick={()=>signOut()}
-                  >Sign {currentSession} out
-                  </Button>
-                </> 
-              }
+              <Dropdown 
+                trigger={iconStylization}
+              >
+                <Dropdown.Menu>
+                {
+                  currentSession==="" ? 
+                    <><Dropdown.Item text='Sign In' href="/login" />
+                    <Dropdown.Item text='Sign Up' href="/CreateAccount" /></>
+                  :
+                  
+                  <Dropdown.Item text="Sign Out" onClick={()=>signOut} />
+                }
+
+                </Dropdown.Menu>
+              </Dropdown>
+            
           </div>
         </Menu.Menu>
       </Menu>

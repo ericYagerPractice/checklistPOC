@@ -3,9 +3,10 @@ import { Button, Dimmer, Form, Grid, Header, Image, Loader, Message, Modal, Segm
 import GLIcon from '../../static/images/GLIfullsize.png'
 import {emailValidation, validationRegex } from '../../functions/dataValidations'
 import {passwordErrorMessage, passwordMismatchMessage, usernameLengthValidationMessage,emailFormatValidationMessage} from '../../functions/errorMessages'
-import { signUp, resendConfirmationCode } from '../../functions/authentication'
-import { Auth } from 'aws-amplify';
+import { signUp, signIn, resendConfirmationCode } from '../../functions/authentication'
+import { API, Auth, graphqlOperation } from 'aws-amplify';
 import { Redirect } from 'react-router-dom'
+import {createUser} from '../../graphql/mutations'
 
 let signupInfoTemplate = {
     username: "",
@@ -42,10 +43,20 @@ function CreateAccountForm(){
         }
     }
 
+    async function SubmitFormDataToAPI(){
+        try{
+            await API.graphql(graphqlOperation(createUser), {input: {username: amplifyFormData.username, email: amplifyFormData.email}})
+        } catch(error){
+            console.log(error)
+        }
+    }
+
     async function SubmitVerificationCodeToAmplify(){
         updateformSubmission(true)
         try{
             await Auth.confirmSignUp(amplifyFormData.username, verificationCode)
+            .then(signIn(amplifyFormData))
+            .then(SubmitFormDataToAPI())
             .then(updateRedirect(true))
             .catch(error=>{
                 console.log("Error validating account", error)
@@ -128,7 +139,7 @@ function CreateAccountForm(){
                                 {redirect && (
                                     <Redirect 
                                         to={{
-                                            pathname: '/login'
+                                            pathname: '/'
                                         }}
                                     />
                                 )}

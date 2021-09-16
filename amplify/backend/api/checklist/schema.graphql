@@ -50,11 +50,11 @@ type User
   id: ID!
   username: String!
   email: AWSEmail!
-  phone: AWSPhone! 
   avatar: Avatar @connection
   teamsMember: [TeamUserJoin] @connection(keyName: "byTeam", fields: ["id"])
   teamsOwner: [Team] @connection(keyName: "byTeamOwner", fields: ["id"])
   memberChecklists: [ChecklistUserJoin] @connection(keyName: "byChecklistUser", fields: ["id"])
+  schedules: [DailySchedule] @connection(keyName: "byScheduleOwner", fields: ["id"])
 }
 
 type Avatar
@@ -70,10 +70,12 @@ type Avatar
 type DailySchedule
 @model
 @auth(rules: [{ allow: private }])
+@key(name: "byScheduleOwner", fields: ["owner"])
 {
   id: ID!
   title: String!
   date: AWSDate!
+  owner: ID!
   events: [Event] @connection(keyName: "byEvent", fields: ["id"])
 }
 
