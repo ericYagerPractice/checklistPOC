@@ -212,6 +212,9 @@ export const getTeam = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -256,6 +259,9 @@ export const listTeams = /* GraphQL */ `
           id
           username
           email
+          firstName
+          lastName
+          description
           createdAt
           updatedAt
         }
@@ -284,6 +290,9 @@ export const getUser = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      firstName
+      lastName
+      description
       teamsMember {
         items {
           id
@@ -347,6 +356,9 @@ export const listUsers = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -474,6 +486,9 @@ export const getEvent = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -513,6 +528,9 @@ export const listEvents = /* GraphQL */ `
           id
           username
           email
+          firstName
+          lastName
+          description
           createdAt
           updatedAt
         }

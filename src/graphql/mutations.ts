@@ -358,6 +358,9 @@ export const createTeam = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -419,6 +422,9 @@ export const updateTeam = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -480,6 +486,9 @@ export const deleteTeam = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -521,6 +530,9 @@ export const createUser = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      firstName
+      lastName
+      description
       teamsMember {
         items {
           id
@@ -587,6 +599,9 @@ export const updateUser = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      firstName
+      lastName
+      description
       teamsMember {
         items {
           id
@@ -653,6 +668,9 @@ export const deleteUser = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      firstName
+      lastName
+      description
       teamsMember {
         items {
           id
@@ -866,6 +884,9 @@ export const createEvent = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -910,6 +931,9 @@ export const updateEvent = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -954,6 +978,9 @@ export const deleteEvent = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -1000,6 +1027,9 @@ export const createTeamUserJoin = /* GraphQL */ `
           id
           username
           email
+          firstName
+          lastName
+          description
           createdAt
           updatedAt
         }
@@ -1017,6 +1047,9 @@ export const createTeamUserJoin = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -1063,6 +1096,9 @@ export const updateTeamUserJoin = /* GraphQL */ `
           id
           username
           email
+          firstName
+          lastName
+          description
           createdAt
           updatedAt
         }
@@ -1080,6 +1116,9 @@ export const updateTeamUserJoin = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -1126,6 +1165,9 @@ export const deleteTeamUserJoin = /* GraphQL */ `
           id
           username
           email
+          firstName
+          lastName
+          description
           createdAt
           updatedAt
         }
@@ -1143,6 +1185,9 @@ export const deleteTeamUserJoin = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -1183,6 +1228,9 @@ export const createChecklistUserJoin = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -1238,6 +1286,9 @@ export const updateChecklistUserJoin = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }
@@ -1293,6 +1344,9 @@ export const deleteChecklistUserJoin = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        firstName
+        lastName
+        description
         teamsMember {
           nextToken
         }

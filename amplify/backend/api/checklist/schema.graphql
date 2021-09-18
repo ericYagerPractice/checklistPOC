@@ -51,6 +51,9 @@ type User
   username: String!
   email: AWSEmail!
   avatar: Avatar @connection
+  firstName: String
+  lastName: String
+  description: String
   teamsMember: [TeamUserJoin] @connection(keyName: "byTeam", fields: ["id"])
   teamsOwner: [Team] @connection(keyName: "byTeamOwner", fields: ["id"])
   memberChecklists: [ChecklistUserJoin] @connection(keyName: "byChecklistUser", fields: ["id"])
