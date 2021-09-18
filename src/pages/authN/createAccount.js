@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Button, Dimmer, Form, Grid, Header, Image, Loader, Message, Modal, Segment } from 'semantic-ui-react'
 import GLIcon from '../../static/images/GLIfullsize.png'
 import {emailValidation, validationRegex } from '../../functions/dataValidations'
@@ -33,6 +33,14 @@ function CreateAccountForm(){
         }
     }
 
+    async function retrieveCurrentSession(){
+        await Auth.currentAuthenticatedUser()
+        .then(()=>{
+            updateRedirect(true)
+        })
+        .catch(error=>(console.log(error)))
+      }
+
     async function SubmitFormDataToAmplify(){
         updateformSubmission(true)
         try{
@@ -42,6 +50,10 @@ function CreateAccountForm(){
             console.log(error)
         }
     }
+
+    useEffect(() =>{
+        retrieveCurrentSession()
+      })
 
     async function SubmitFormDataToAPI(){
         try{
@@ -57,7 +69,7 @@ function CreateAccountForm(){
             await Auth.confirmSignUp(amplifyFormData.username, verificationCode)
             .then(signIn(amplifyFormData))
             .then(SubmitFormDataToAPI())
-            .then(updateRedirect(true))
+            .then(window.location.reload())
             .catch(error=>{
                 console.log("Error validating account", error)
             })

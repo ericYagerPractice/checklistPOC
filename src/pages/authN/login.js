@@ -1,22 +1,46 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import GLIcon from '../../static/images/GLIfullsize.png'
 import { signIn } from '../../functions/authentication'
 import { Redirect } from 'react-router-dom'
+import { Auth, Hub } from 'aws-amplify';
 
 function LoginForm(){
   const [loginData, updateloginData] = useState({username: null, password: null})
   const [redirect, updateRedirect] = useState(false)
 
+  const listener = (data) => {
+    switch (data.payload.event) {
+        case 'signIn':
+            console.log('user signed in')
+            updateRedirect(true)
+            break;
+        default:
+            break;
+    }
+  }
+
+  async function retrieveCurrentSession(){
+    await Auth.currentAuthenticatedUser()
+    .then(()=>{
+        updateRedirect(true)
+    })
+    .catch(error=>(console.log(error)))
+  }
+
   async function SubmitLoginDataToAmplify(){
     try{
+      console.log(loginData)
         await signIn(loginData)
-        .then(updateRedirect(true))
-
+        .then(retrieveCurrentSession())
     } catch(error){
         console.log("ERROR", error)
     }
   }
+
+  useEffect(() =>{
+    Hub.listen('auth', listener);
+  })
 
   return(
     <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>

@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { Icon, Menu, Segment, Dropdown } from 'semantic-ui-react'
-import { Auth } from 'aws-amplify';
-import { Button } from 'semantic-ui-react'
-import { signOut } from '../functions/authentication';
+import { Auth, Hub } from 'aws-amplify';
 
 export default function Header() {
-  const [currentSession, updatecurrentSession] = useState("")
+  const [userHasAuthenticated, updateAuthentication] = useState(false)
+
+  const listener = (data) => {
+    switch (data.payload.event) {
+        case 'signIn':
+            console.log('user signed in')
+            updateAuthentication(true)
+            break;
+        case 'signOut':
+            console.log('user signed out');
+            updateAuthentication(false)
+            break;
+        default:
+            break;
+    }
+  }
 
   const iconStylization= (
     <span>
@@ -13,20 +26,15 @@ export default function Header() {
     </span>
   )
 
-
   var currentURL = window.location.pathname
 
-  async function retrieveCurrentSession(){
-    await Auth.currentAuthenticatedUser()
-    .then((userInfo)=>{
-      updatecurrentSession(userInfo.username)
-    }
-    )
-    .catch(error=>(console.log(error)))
+  async function signUserOut(){
+    await Auth.signOut()
+    .catch(console.log("there was an error signing out"))
   }
 
   useEffect(() =>{
-    retrieveCurrentSession()
+    Hub.listen('auth', listener);
   })
 
   return (
@@ -49,12 +57,12 @@ export default function Header() {
               >
                 <Dropdown.Menu>
                 {
-                  currentSession==="" ? 
+                  userHasAuthenticated===false ? 
                     <><Dropdown.Item text='Sign In' href="/login" />
                     <Dropdown.Item text='Sign Up' href="/CreateAccount" /></>
                   :
                   
-                  <Dropdown.Item text="Sign Out" onClick={()=>signOut} />
+                  <Dropdown.Item text="Sign Out" onClick={()=>signUserOut()} />
                 }
 
                 </Dropdown.Menu>
