@@ -2,6 +2,141 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateNotification = /* GraphQL */ `
+  subscription OnCreateNotification {
+    onCreateNotification {
+      id
+      title
+      body
+      acknowledged
+      targetUserID
+      targetUser {
+        id
+        username
+        email
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
+        firstName
+        lastName
+        description
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        schedules {
+          nextToken
+        }
+        notifications {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateNotification = /* GraphQL */ `
+  subscription OnUpdateNotification {
+    onUpdateNotification {
+      id
+      title
+      body
+      acknowledged
+      targetUserID
+      targetUser {
+        id
+        username
+        email
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
+        firstName
+        lastName
+        description
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        schedules {
+          nextToken
+        }
+        notifications {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteNotification = /* GraphQL */ `
+  subscription OnDeleteNotification {
+    onDeleteNotification {
+      id
+      title
+      body
+      acknowledged
+      targetUserID
+      targetUser {
+        id
+        username
+        email
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
+        firstName
+        lastName
+        description
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        schedules {
+          nextToken
+        }
+        notifications {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateChecklist = /* GraphQL */ `
   subscription OnCreateChecklist {
     onCreateChecklist {
@@ -343,6 +478,9 @@ export const onCreateTeam = /* GraphQL */ `
         schedules {
           nextToken
         }
+        notifications {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -404,6 +542,9 @@ export const onUpdateTeam = /* GraphQL */ `
         schedules {
           nextToken
         }
+        notifications {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -463,6 +604,9 @@ export const onDeleteTeam = /* GraphQL */ `
           nextToken
         }
         schedules {
+          nextToken
+        }
+        notifications {
           nextToken
         }
         createdAt
@@ -534,6 +678,18 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
+      notifications {
+        items {
+          id
+          title
+          body
+          acknowledged
+          targetUserID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -600,6 +756,18 @@ export const onUpdateUser = /* GraphQL */ `
         }
         nextToken
       }
+      notifications {
+        items {
+          id
+          title
+          body
+          acknowledged
+          targetUserID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -661,6 +829,18 @@ export const onDeleteUser = /* GraphQL */ `
           title
           date
           owner
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      notifications {
+        items {
+          id
+          title
+          body
+          acknowledged
+          targetUserID
           createdAt
           updatedAt
         }
@@ -833,6 +1013,9 @@ export const onCreateEvent = /* GraphQL */ `
         schedules {
           nextToken
         }
+        notifications {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -877,6 +1060,9 @@ export const onUpdateEvent = /* GraphQL */ `
         schedules {
           nextToken
         }
+        notifications {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -919,6 +1105,9 @@ export const onDeleteEvent = /* GraphQL */ `
           nextToken
         }
         schedules {
+          nextToken
+        }
+        notifications {
           nextToken
         }
         createdAt
@@ -987,6 +1176,9 @@ export const onCreateTeamUserJoin = /* GraphQL */ `
         schedules {
           nextToken
         }
+        notifications {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1051,6 +1243,9 @@ export const onUpdateTeamUserJoin = /* GraphQL */ `
           nextToken
         }
         schedules {
+          nextToken
+        }
+        notifications {
           nextToken
         }
         createdAt
@@ -1119,6 +1314,9 @@ export const onDeleteTeamUserJoin = /* GraphQL */ `
         schedules {
           nextToken
         }
+        notifications {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1157,6 +1355,9 @@ export const onCreateChecklistUserJoin = /* GraphQL */ `
           nextToken
         }
         schedules {
+          nextToken
+        }
+        notifications {
           nextToken
         }
         createdAt
@@ -1214,6 +1415,9 @@ export const onUpdateChecklistUserJoin = /* GraphQL */ `
         schedules {
           nextToken
         }
+        notifications {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1267,6 +1471,9 @@ export const onDeleteChecklistUserJoin = /* GraphQL */ `
           nextToken
         }
         schedules {
+          nextToken
+        }
+        notifications {
           nextToken
         }
         createdAt

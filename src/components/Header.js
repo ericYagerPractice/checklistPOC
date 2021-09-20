@@ -1,41 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import { Icon, Menu, Segment, Dropdown } from 'semantic-ui-react'
-import { Auth, Hub } from 'aws-amplify';
+import React from 'react'
+import { Menu, Segment, Button} from 'semantic-ui-react'
+import { AccountOptions, Notifications } from './Header/Dropdowns';
+import {listUsers} from '../graphql/queries'
+import { API } from 'aws-amplify';
 
 export default function Header() {
-  const [userHasAuthenticated, updateAuthentication] = useState(false)
-
-  const listener = (data) => {
-    switch (data.payload.event) {
-        case 'signIn':
-            console.log('user signed in')
-            updateAuthentication(true)
-            break;
-        case 'signOut':
-            console.log('user signed out');
-            updateAuthentication(false)
-            break;
-        default:
-            break;
-    }
-  }
-
-  const iconStylization= (
-    <span>
-      <Icon name='user' /> User Options
-    </span>
-  )
 
   var currentURL = window.location.pathname
+  const testUser = "qqqqqqq"
 
-  async function signUserOut(){
-    await Auth.signOut()
-    .catch(console.log("there was an error signing out"))
+  async function mockNotification(){
+    let mockQuery = await API.graphql({query: listUsers, variables:{
+      filter: {username: {eq: testUser}}
+    }})
+    console.log(mockQuery)
   }
-
-  useEffect(() =>{
-    Hub.listen('auth', listener);
-  })
 
   return (
     <Segment inverted>
@@ -51,24 +30,13 @@ export default function Header() {
           href='/CreateSchedule'
         />
         <Menu.Menu position='right'>
-          <div className='ui right aligned'>
-              <Dropdown 
-                trigger={iconStylization}
-              >
-                <Dropdown.Menu>
-                {
-                  userHasAuthenticated===false ? 
-                    <><Dropdown.Item text='Sign In' href="/login" />
-                    <Dropdown.Item text='Sign Up' href="/CreateAccount" /></>
-                  :
-                  
-                  <Dropdown.Item text="Sign Out" onClick={()=>signUserOut()} />
-                }
-
-                </Dropdown.Menu>
-              </Dropdown>
-            
-          </div>
+          <Button onClick={()=>mockNotification()}>Click this to do stuff</Button>
+          <Menu.Item>
+            <AccountOptions />
+          </Menu.Item>
+          <Menu.Item>
+            <Notifications />
+          </Menu.Item>
         </Menu.Menu>
       </Menu>
     </Segment>

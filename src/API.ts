@@ -2,16 +2,22 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateChecklistInput = {
+export type CreateNotificationInput = {
   id?: string | null,
-  Title: string,
+  title: string,
+  body: string,
+  acknowledged: boolean,
+  targetUserID: string,
 };
 
-export type ModelChecklistConditionInput = {
-  Title?: ModelStringInput | null,
-  and?: Array< ModelChecklistConditionInput | null > | null,
-  or?: Array< ModelChecklistConditionInput | null > | null,
-  not?: ModelChecklistConditionInput | null,
+export type ModelNotificationConditionInput = {
+  title?: ModelStringInput | null,
+  body?: ModelStringInput | null,
+  acknowledged?: ModelBooleanInput | null,
+  targetUserID?: ModelIDInput | null,
+  and?: Array< ModelNotificationConditionInput | null > | null,
+  or?: Array< ModelNotificationConditionInput | null > | null,
+  not?: ModelNotificationConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -52,6 +58,127 @@ export type ModelSizeInput = {
   ge?: number | null,
   gt?: number | null,
   between?: Array< number | null > | null,
+};
+
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export type Notification = {
+  __typename: "Notification",
+  id: string,
+  title: string,
+  body: string,
+  acknowledged: boolean,
+  targetUserID: string,
+  targetUser: User,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type User = {
+  __typename: "User",
+  id: string,
+  username: string,
+  email: string,
+  avatar?: Avatar | null,
+  firstName?: string | null,
+  lastName?: string | null,
+  description?: string | null,
+  teamsMember?: ModelTeamUserJoinConnection | null,
+  teamsOwner?: ModelTeamConnection | null,
+  memberChecklists?: ModelChecklistUserJoinConnection | null,
+  schedules?: ModelDailyScheduleConnection | null,
+  notifications?: ModelNotificationConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type Avatar = {
+  __typename: "Avatar",
+  id: string,
+  name?: string | null,
+  owner?: string | null,
+  file?: PhotoStorage | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type PhotoStorage = {
+  __typename: "PhotoStorage",
+  bucket: string,
+  region: string,
+  key: string,
+};
+
+export type ModelTeamUserJoinConnection = {
+  __typename: "ModelTeamUserJoinConnection",
+  items?:  Array<TeamUserJoin | null > | null,
+  nextToken?: string | null,
+};
+
+export type TeamUserJoin = {
+  __typename: "TeamUserJoin",
+  id: string,
+  teamID: string,
+  userID: string,
+  team: Team,
+  teamMember: User,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type Team = {
+  __typename: "Team",
+  id: string,
+  teamName: string,
+  avatar?: Avatar | null,
+  teamMembers?: ModelTeamUserJoinConnection | null,
+  teamLead: User,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelTeamConnection = {
+  __typename: "ModelTeamConnection",
+  items?:  Array<Team | null > | null,
+  nextToken?: string | null,
+};
+
+export type ModelChecklistUserJoinConnection = {
+  __typename: "ModelChecklistUserJoinConnection",
+  items?:  Array<ChecklistUserJoin | null > | null,
+  nextToken?: string | null,
+};
+
+export type ChecklistUserJoin = {
+  __typename: "ChecklistUserJoin",
+  id: string,
+  userID: string,
+  checklistID: string,
+  checklistUser: User,
+  checklist: Checklist,
+  createdAt: string,
+  updatedAt: string,
 };
 
 export type Checklist = {
@@ -108,91 +235,6 @@ export type Comment = {
   updatedAt: string,
 };
 
-export type ModelChecklistUserJoinConnection = {
-  __typename: "ModelChecklistUserJoinConnection",
-  items?:  Array<ChecklistUserJoin | null > | null,
-  nextToken?: string | null,
-};
-
-export type ChecklistUserJoin = {
-  __typename: "ChecklistUserJoin",
-  id: string,
-  userID: string,
-  checklistID: string,
-  checklistUser: User,
-  checklist: Checklist,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type User = {
-  __typename: "User",
-  id: string,
-  username: string,
-  email: string,
-  avatar?: Avatar | null,
-  firstName?: string | null,
-  lastName?: string | null,
-  description?: string | null,
-  teamsMember?: ModelTeamUserJoinConnection | null,
-  teamsOwner?: ModelTeamConnection | null,
-  memberChecklists?: ModelChecklistUserJoinConnection | null,
-  schedules?: ModelDailyScheduleConnection | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type Avatar = {
-  __typename: "Avatar",
-  id: string,
-  name?: string | null,
-  owner?: string | null,
-  file?: PhotoStorage | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type PhotoStorage = {
-  __typename: "PhotoStorage",
-  bucket: string,
-  region: string,
-  key: string,
-};
-
-export type ModelTeamUserJoinConnection = {
-  __typename: "ModelTeamUserJoinConnection",
-  items?:  Array<TeamUserJoin | null > | null,
-  nextToken?: string | null,
-};
-
-export type TeamUserJoin = {
-  __typename: "TeamUserJoin",
-  id: string,
-  teamID: string,
-  userID: string,
-  team: Team,
-  teamMember: User,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type Team = {
-  __typename: "Team",
-  id: string,
-  teamName: string,
-  avatar?: Avatar | null,
-  teamMembers?: ModelTeamUserJoinConnection | null,
-  teamLead: User,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type ModelTeamConnection = {
-  __typename: "ModelTeamConnection",
-  items?:  Array<Team | null > | null,
-  nextToken?: string | null,
-};
-
 export type ModelDailyScheduleConnection = {
   __typename: "ModelDailyScheduleConnection",
   items?:  Array<DailySchedule | null > | null,
@@ -238,6 +280,36 @@ export enum Status {
 }
 
 
+export type ModelNotificationConnection = {
+  __typename: "ModelNotificationConnection",
+  items?:  Array<Notification | null > | null,
+  nextToken?: string | null,
+};
+
+export type UpdateNotificationInput = {
+  id: string,
+  title?: string | null,
+  body?: string | null,
+  acknowledged?: boolean | null,
+  targetUserID?: string | null,
+};
+
+export type DeleteNotificationInput = {
+  id: string,
+};
+
+export type CreateChecklistInput = {
+  id?: string | null,
+  Title: string,
+};
+
+export type ModelChecklistConditionInput = {
+  Title?: ModelStringInput | null,
+  and?: Array< ModelChecklistConditionInput | null > | null,
+  or?: Array< ModelChecklistConditionInput | null > | null,
+  not?: ModelChecklistConditionInput | null,
+};
+
 export type UpdateChecklistInput = {
   id: string,
   Title?: string | null,
@@ -268,22 +340,6 @@ export type ModelFormFieldConditionInput = {
 export type ModelformFieldTypeInput = {
   eq?: formFieldType | null,
   ne?: formFieldType | null,
-};
-
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
 };
 
 export type UpdateFormFieldInput = {
@@ -541,6 +597,17 @@ export type DeleteChecklistUserJoinInput = {
   id: string,
 };
 
+export type ModelNotificationFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  body?: ModelStringInput | null,
+  acknowledged?: ModelBooleanInput | null,
+  targetUserID?: ModelIDInput | null,
+  and?: Array< ModelNotificationFilterInput | null > | null,
+  or?: Array< ModelNotificationFilterInput | null > | null,
+  not?: ModelNotificationFilterInput | null,
+};
+
 export type ModelChecklistFilterInput = {
   id?: ModelIDInput | null,
   Title?: ModelStringInput | null,
@@ -637,6 +704,177 @@ export type ModelEventFilterInput = {
   and?: Array< ModelEventFilterInput | null > | null,
   or?: Array< ModelEventFilterInput | null > | null,
   not?: ModelEventFilterInput | null,
+};
+
+export type CreateNotificationMutationVariables = {
+  input: CreateNotificationInput,
+  condition?: ModelNotificationConditionInput | null,
+};
+
+export type CreateNotificationMutation = {
+  createNotification?:  {
+    __typename: "Notification",
+    id: string,
+    title: string,
+    body: string,
+    acknowledged: boolean,
+    targetUserID: string,
+    targetUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      firstName?: string | null,
+      lastName?: string | null,
+      description?: string | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateNotificationMutationVariables = {
+  input: UpdateNotificationInput,
+  condition?: ModelNotificationConditionInput | null,
+};
+
+export type UpdateNotificationMutation = {
+  updateNotification?:  {
+    __typename: "Notification",
+    id: string,
+    title: string,
+    body: string,
+    acknowledged: boolean,
+    targetUserID: string,
+    targetUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      firstName?: string | null,
+      lastName?: string | null,
+      description?: string | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteNotificationMutationVariables = {
+  input: DeleteNotificationInput,
+  condition?: ModelNotificationConditionInput | null,
+};
+
+export type DeleteNotificationMutation = {
+  deleteNotification?:  {
+    __typename: "Notification",
+    id: string,
+    title: string,
+    body: string,
+    acknowledged: boolean,
+    targetUserID: string,
+    targetUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      firstName?: string | null,
+      lastName?: string | null,
+      description?: string | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type CreateChecklistMutationVariables = {
@@ -1082,6 +1320,10 @@ export type CreateTeamMutation = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -1158,6 +1400,10 @@ export type UpdateTeamMutation = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -1232,6 +1478,10 @@ export type DeleteTeamMutation = {
       } | null,
       schedules?:  {
         __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1318,6 +1568,20 @@ export type CreateUserMutation = {
       } | null > | null,
       nextToken?: string | null,
     } | null,
+    notifications?:  {
+      __typename: "ModelNotificationConnection",
+      items?:  Array< {
+        __typename: "Notification",
+        id: string,
+        title: string,
+        body: string,
+        acknowledged: boolean,
+        targetUserID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1399,6 +1663,20 @@ export type UpdateUserMutation = {
       } | null > | null,
       nextToken?: string | null,
     } | null,
+    notifications?:  {
+      __typename: "ModelNotificationConnection",
+      items?:  Array< {
+        __typename: "Notification",
+        id: string,
+        title: string,
+        body: string,
+        acknowledged: boolean,
+        targetUserID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1475,6 +1753,20 @@ export type DeleteUserMutation = {
         title: string,
         date: string,
         owner: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    notifications?:  {
+      __typename: "ModelNotificationConnection",
+      items?:  Array< {
+        __typename: "Notification",
+        id: string,
+        title: string,
+        body: string,
+        acknowledged: boolean,
+        targetUserID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -1697,6 +1989,10 @@ export type CreateEventMutation = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -1752,6 +2048,10 @@ export type UpdateEventMutation = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -1805,6 +2105,10 @@ export type DeleteEventMutation = {
       } | null,
       schedules?:  {
         __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1888,6 +2192,10 @@ export type CreateTeamUserJoinMutation = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -1967,6 +2275,10 @@ export type UpdateTeamUserJoinMutation = {
       } | null,
       schedules?:  {
         __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -2050,6 +2362,10 @@ export type DeleteTeamUserJoinMutation = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -2099,6 +2415,10 @@ export type CreateChecklistUserJoinMutation = {
       } | null,
       schedules?:  {
         __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -2171,6 +2491,10 @@ export type UpdateChecklistUserJoinMutation = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -2241,6 +2565,10 @@ export type DeleteChecklistUserJoinMutation = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -2265,6 +2593,96 @@ export type DeleteChecklistUserJoinMutation = {
     },
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type GetNotificationQueryVariables = {
+  id: string,
+};
+
+export type GetNotificationQuery = {
+  getNotification?:  {
+    __typename: "Notification",
+    id: string,
+    title: string,
+    body: string,
+    acknowledged: boolean,
+    targetUserID: string,
+    targetUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      firstName?: string | null,
+      lastName?: string | null,
+      description?: string | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListNotificationsQueryVariables = {
+  filter?: ModelNotificationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListNotificationsQuery = {
+  listNotifications?:  {
+    __typename: "ModelNotificationConnection",
+    items?:  Array< {
+      __typename: "Notification",
+      id: string,
+      title: string,
+      body: string,
+      acknowledged: boolean,
+      targetUserID: string,
+      targetUser:  {
+        __typename: "User",
+        id: string,
+        username: string,
+        email: string,
+        firstName?: string | null,
+        lastName?: string | null,
+        description?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      },
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -2547,6 +2965,10 @@ export type GetTeamQuery = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -2673,6 +3095,20 @@ export type GetUserQuery = {
       } | null > | null,
       nextToken?: string | null,
     } | null,
+    notifications?:  {
+      __typename: "ModelNotificationConnection",
+      items?:  Array< {
+        __typename: "Notification",
+        id: string,
+        title: string,
+        body: string,
+        acknowledged: boolean,
+        targetUserID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2717,6 +3153,10 @@ export type ListUsersQuery = {
       } | null,
       schedules?:  {
         __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -2878,6 +3318,10 @@ export type GetEventQuery = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -2919,6 +3363,162 @@ export type ListEventsQuery = {
       updatedAt: string,
     } | null > | null,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateNotificationSubscription = {
+  onCreateNotification?:  {
+    __typename: "Notification",
+    id: string,
+    title: string,
+    body: string,
+    acknowledged: boolean,
+    targetUserID: string,
+    targetUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      firstName?: string | null,
+      lastName?: string | null,
+      description?: string | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateNotificationSubscription = {
+  onUpdateNotification?:  {
+    __typename: "Notification",
+    id: string,
+    title: string,
+    body: string,
+    acknowledged: boolean,
+    targetUserID: string,
+    targetUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      firstName?: string | null,
+      lastName?: string | null,
+      description?: string | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteNotificationSubscription = {
+  onDeleteNotification?:  {
+    __typename: "Notification",
+    id: string,
+    title: string,
+    body: string,
+    acknowledged: boolean,
+    targetUserID: string,
+    targetUser:  {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      avatar?:  {
+        __typename: "Avatar",
+        id: string,
+        name?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      firstName?: string | null,
+      lastName?: string | null,
+      description?: string | null,
+      teamsMember?:  {
+        __typename: "ModelTeamUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      teamsOwner?:  {
+        __typename: "ModelTeamConnection",
+        nextToken?: string | null,
+      } | null,
+      memberChecklists?:  {
+        __typename: "ModelChecklistUserJoinConnection",
+        nextToken?: string | null,
+      } | null,
+      schedules?:  {
+        __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -3315,6 +3915,10 @@ export type OnCreateTeamSubscription = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -3386,6 +3990,10 @@ export type OnUpdateTeamSubscription = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -3455,6 +4063,10 @@ export type OnDeleteTeamSubscription = {
       } | null,
       schedules?:  {
         __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -3536,6 +4148,20 @@ export type OnCreateUserSubscription = {
       } | null > | null,
       nextToken?: string | null,
     } | null,
+    notifications?:  {
+      __typename: "ModelNotificationConnection",
+      items?:  Array< {
+        __typename: "Notification",
+        id: string,
+        title: string,
+        body: string,
+        acknowledged: boolean,
+        targetUserID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3612,6 +4238,20 @@ export type OnUpdateUserSubscription = {
       } | null > | null,
       nextToken?: string | null,
     } | null,
+    notifications?:  {
+      __typename: "ModelNotificationConnection",
+      items?:  Array< {
+        __typename: "Notification",
+        id: string,
+        title: string,
+        body: string,
+        acknowledged: boolean,
+        targetUserID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3683,6 +4323,20 @@ export type OnDeleteUserSubscription = {
         title: string,
         date: string,
         owner: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    notifications?:  {
+      __typename: "ModelNotificationConnection",
+      items?:  Array< {
+        __typename: "Notification",
+        id: string,
+        title: string,
+        body: string,
+        acknowledged: boolean,
+        targetUserID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -3882,6 +4536,10 @@ export type OnCreateEventSubscription = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -3932,6 +4590,10 @@ export type OnUpdateEventSubscription = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -3980,6 +4642,10 @@ export type OnDeleteEventSubscription = {
       } | null,
       schedules?:  {
         __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -4058,6 +4724,10 @@ export type OnCreateTeamUserJoinSubscription = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -4132,6 +4802,10 @@ export type OnUpdateTeamUserJoinSubscription = {
       } | null,
       schedules?:  {
         __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -4210,6 +4884,10 @@ export type OnDeleteTeamUserJoinSubscription = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -4254,6 +4932,10 @@ export type OnCreateChecklistUserJoinSubscription = {
       } | null,
       schedules?:  {
         __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -4321,6 +5003,10 @@ export type OnUpdateChecklistUserJoinSubscription = {
         __typename: "ModelDailyScheduleConnection",
         nextToken?: string | null,
       } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -4384,6 +5070,10 @@ export type OnDeleteChecklistUserJoinSubscription = {
       } | null,
       schedules?:  {
         __typename: "ModelDailyScheduleConnection",
+        nextToken?: string | null,
+      } | null,
+      notifications?:  {
+        __typename: "ModelNotificationConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,

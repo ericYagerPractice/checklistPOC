@@ -1,4 +1,15 @@
 #Singlular data objects ----------------------------------------------------------------------------------------
+type Notification
+  @model
+  @key(name: "byUserNotification" fields: ["targetUserID"])
+{
+  id: ID!
+  title: String!
+  body: String!
+  acknowledged: Boolean!
+  targetUserID: ID!
+  targetUser: User! @connection(fields: ["targetUserID"])
+}
 
 type Checklist 
   @model 
@@ -58,6 +69,7 @@ type User
   teamsOwner: [Team] @connection(keyName: "byTeamOwner", fields: ["id"])
   memberChecklists: [ChecklistUserJoin] @connection(keyName: "byChecklistUser", fields: ["id"])
   schedules: [DailySchedule] @connection(keyName: "byScheduleOwner", fields: ["id"])
+  notifications: [Notification] @connection(keyName: "byUserNotification", fields: ["id"])
 }
 
 type Avatar

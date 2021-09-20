@@ -2,6 +2,81 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getNotification = /* GraphQL */ `
+  query GetNotification($id: ID!) {
+    getNotification(id: $id) {
+      id
+      title
+      body
+      acknowledged
+      targetUserID
+      targetUser {
+        id
+        username
+        email
+        avatar {
+          id
+          name
+          owner
+          createdAt
+          updatedAt
+        }
+        firstName
+        lastName
+        description
+        teamsMember {
+          nextToken
+        }
+        teamsOwner {
+          nextToken
+        }
+        memberChecklists {
+          nextToken
+        }
+        schedules {
+          nextToken
+        }
+        notifications {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listNotifications = /* GraphQL */ `
+  query ListNotifications(
+    $filter: ModelNotificationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listNotifications(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        body
+        acknowledged
+        targetUserID
+        targetUser {
+          id
+          username
+          email
+          firstName
+          lastName
+          description
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getChecklist = /* GraphQL */ `
   query GetChecklist($id: ID!) {
     getChecklist(id: $id) {
@@ -227,6 +302,9 @@ export const getTeam = /* GraphQL */ `
         schedules {
           nextToken
         }
+        notifications {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -333,6 +411,18 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      notifications {
+        items {
+          id
+          title
+          body
+          acknowledged
+          targetUserID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -369,6 +459,9 @@ export const listUsers = /* GraphQL */ `
           nextToken
         }
         schedules {
+          nextToken
+        }
+        notifications {
           nextToken
         }
         createdAt
@@ -499,6 +592,9 @@ export const getEvent = /* GraphQL */ `
           nextToken
         }
         schedules {
+          nextToken
+        }
+        notifications {
           nextToken
         }
         createdAt
